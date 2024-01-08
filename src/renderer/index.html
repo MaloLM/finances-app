@@ -1,18 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>FinApp</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 20px;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
-    <h1>Bienvenue dans Votre Application Electron!</h1>
-    <p>L'application Electron fonctionne correctement.</p>
+    <div class="header">
+        <div class="menu-icon" onclick="toggleMenu()">
+            <div class="menu-line"></div>
+            <div class="menu-line"></div>
+            <div class="menu-line"></div>
+        </div>
+        <span id="feature-title"></span>
+    </div>
+    <div class="menu-dropdown" id="menuDropdown">
+        <a href="#" onclick="loadFeature('features/target_allocation_maintenance/index.html','Target Allocation Maintenance')">Target Allocation Maintenance</a>
+        <a href="#" onclick="loadFeature('features/feature_2/index.html','Another feature')">Another feature</a>
+        <!-- Add more features link here -->
+    </div>
+
+    <!-- Page content-->
+    <iframe id="feature-iframe" src="" width="100%"></iframe>
+
+    <script src="renderer.js"></script>
 </body>
+
 </html>

@@ -1,0 +1,63 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    background-color: rgb(0, 0, 0);
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    height: 50px;
+}
+
+.menu-icon {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 25px;
+    width: 35px;
+}
+
+.menu-line {
+    background-color: white;
+    height: 3px;
+    border-radius: 10px;
+}
+
+#feature-title {
+    margin-left: 20px;
+}
+
+.menu-dropdown {
+    display: none;
+    flex-direction: column;
+    background-color: black;
+    position: absolute;
+    width: 100%;
+    top: 50px;
+    z-index: 1000;
+}
+
+.menu-dropdown a {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    border-bottom: 1px solid grey;
+}
+
+.menu-dropdown a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+#feature-iframe {
+    width: 100%;
+    height: calc(100%); /* 100% de la hauteur de la vue, moins la hauteur du header */
+    margin-top: 1px;
+    border: none;
+}
