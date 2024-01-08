@@ -1,0 +1,15 @@
+{
+  "name": "fin-app",
+  "version": "1.0.0",
+  "description": "a local electron app for simple financial use cases",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Malo Le Mestre",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "electron": "^28.1.1"
+  }
+}
