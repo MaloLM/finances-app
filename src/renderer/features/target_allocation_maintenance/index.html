@@ -1,11 +1,39 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="UTF-8">
-    <title>FinApp</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
-</head>
-<body>
-    <p>Target Allocation maintenance here.</p>
-</body>
+  <head>
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <h1>Current Allocation</h1>
+    <div id="assets-form"></div>
+    <button onclick="addAsset()">Add</button>
+
+    <h1>Next Buy Budget</h1>
+    <div class="input-group">
+      <input type="number" id="budget" placeholder="Enter budget" />
+      <select id="currency">
+        <option value="USD">USD</option>
+        <option value="EUR">EUR</option>
+        <option value="JPY">JPY</option>
+        <option value="GBP">GBP</option>
+        <option value="AUD">AUD</option>
+        <option value="CAD">CAD</option>
+        <option value="CHF">CHF</option>
+        <option value="CNH">CNH</option>
+        <option value="SEK">SEK</option>
+        <option value="NZD">NZD</option>
+      </select>
+    </div>
+
+    <button onclick="compute()">Compute</button>
+
+    <h1 id="resultTitle" style="display: none">Result</h1>
+
+    <div id="chart-container">
+      <canvas id="stackedChartID"></canvas>
+    </div>
+
+    <script src="renderer.js"></script>
+  </body>
 </html>

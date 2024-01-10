@@ -1,23 +1,69 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require("electron");
+const { readJsonFile, writeJsonFile } = require("./services/dataFiles");
+const {
+  run_tam_optimization,
+} = require("./services/targetAllocationMaintenance");
 
 function createWindow() {
-    const win = new BrowserWindow({
-      width: 800,
-      height: 600,
-      webPreferences: {
-        nodeIntegration: true
-      }
-    });
-  
-    win.loadFile('./src/renderer/index.html');
+  const win = new BrowserWindow({
+    width: 800,
+    height: 600,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+      enableRemoteModule: true,
+    },
+  });
+
+  win.loadFile("./src/renderer/index.html");
+}
+
+// Quit the Electron app when all windows are closed.
+app.on("window-all-closed", () => {
+  if (process.platform !== "darwin") {
+    app.quit();
   }
+});
+
+// Create the main window when the Electron app is activated.
+app.on("activate", () => {
+  if (BrowserWindow.getAllWindows().length === 0) {
+    createWindow();
+  }
+});
 
 app.whenReady().then(createWindow);
 
-app.on('window-all-closed', () => {
-if (process.platform !== 'darwin') app.quit();
+// IPC communications -----------------------------
+
+ipcMain.on("write-data-channel", (event, data) => {
+  console.log(data);
+  console.log(typeof data);
+  let conclusion = writeJsonFile("tam_form_data.json", data);
+  console.log("conclusion", conclusion);
+
+  let { data: struct, res } = run_tam_optimization(data);
+  console.log("STRUCTTTT");
+  console.log(struct);
+  console.log("RESSSSS");
+  console.log(res);
+
+  writeJsonFile("tam_form_data.json", struct);
+
+  event.sender.send("write-response-channel", {
+    status: "tam-result",
+    message: res,
+  });
 });
 
-app.on('activate', () => {
-if (BrowserWindow.getAllWindows().length === 0) createWindow();
+ipcMain.on("request-data-channel", async (event) => {
+  try {
+    const data = await readJsonFile("tam_form_data.json");
+    event.sender.send("response-data-channel", data);
+  } catch (err) {
+    console.error("Error reading JSON file:", err);
+    event.sender.send("response-data-channel", {
+      error: "Failed to read JSON file",
+    });
+  }
 });

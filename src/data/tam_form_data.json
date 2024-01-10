@@ -1,0 +1,36 @@
+{
+  "assets": [
+    {
+      "assetName": "EFZEFZ",
+      "unitPrice": 345,
+      "quantityOwned": 895,
+      "targetPercent": null
+    },
+    {
+      "assetName": "EFZEF",
+      "unitPrice": 323,
+      "quantityOwned": 417,
+      "targetPercent": null
+    },
+    {
+      "assetName": "EFZEF",
+      "unitPrice": 123,
+      "quantityOwned": 685,
+      "targetPercent": null
+    },
+    {
+      "assetName": "PRIM",
+      "unitPrice": 3454,
+      "quantityOwned": 135,
+      "targetPercent": null
+    },
+    {
+      "assetName": "test",
+      "unitPrice": 544,
+      "quantityOwned": 540,
+      "targetPercent": null
+    }
+  ],
+  "currency": "USD",
+  "budget": null
+}

@@ -1,27 +1,34 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <link rel="stylesheet" type="text/css" href="styles.css">
-</head>
-<body>
+  <head>
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+  </head>
+  <body>
     <div class="header">
-        <div class="menu-icon" onclick="toggleMenu()">
-            <div class="menu-line"></div>
-            <div class="menu-line"></div>
-            <div class="menu-line"></div>
-        </div>
-        <span id="feature-title"></span>
+      <div class="menu-icon" onclick="toggleMenu()">
+        <div class="menu-line"></div>
+        <div class="menu-line"></div>
+        <div class="menu-line"></div>
+      </div>
+      <span id="feature-title"></span>
     </div>
     <div class="menu-dropdown" id="menuDropdown">
-        <a href="#" onclick="loadFeature('features/target_allocation_maintenance/index.html','Target Allocation Maintenance')">Target Allocation Maintenance</a>
-        <a href="#" onclick="loadFeature('features/feature_2/index.html','Another feature')">Another feature</a>
-        <!-- Add more features link here -->
+      <a
+        href="#"
+        onclick="loadFeature('features/target_allocation_maintenance/index.html','Target Allocation Maintenance')"
+        >Target Allocation Maintenance</a
+      >
+      <a
+        href="#"
+        onclick="loadFeature('features/feature_2/index.html','Another feature')"
+        >Another feature</a
+      >
+      <!-- Add more features link here -->
     </div>
 
     <!-- Page content-->
     <iframe id="feature-iframe" src="" width="100%"></iframe>
 
     <script src="renderer.js"></script>
-</body>
-
+  </body>
 </html>
