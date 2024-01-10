@@ -21,12 +21,16 @@ window.addEventListener("message", (event) => {
 // Recevoir la réponse du processus principal
 ipcRenderer.on("response-data-channel", (event, data) => {
   const iframe = document.getElementById("feature-iframe");
+
   iframe.contentWindow.postMessage({ action: "responseData", data: data }, "*");
 });
 
-ipcRenderer.on('write-response-channel', (event, response) => {
-  const iframe = document.getElementById('feature-iframe');
-  iframe.contentWindow.postMessage({ action: 'writeResponse', data: response }, '*');
+ipcRenderer.on("write-response-channel", (event, response) => {
+  const iframe = document.getElementById("feature-iframe");
+  iframe.contentWindow.postMessage(
+    { action: "writeResponse", data: response },
+    "*"
+  );
 });
 
 function toggleMenu() {

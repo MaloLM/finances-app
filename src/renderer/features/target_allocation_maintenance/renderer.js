@@ -4,21 +4,23 @@ parent.postMessage({ action: "requestData" }, "*");
 
 window.addEventListener("message", (event) => {
   if (event.data.action === "responseData") {
-    const data = event.data.data;
+    let dataString = event.data.data;
+    const data = JSON.parse(dataString);
+
+    let assets = data.assets;
 
     if (
-      Array.isArray(data.assets) &&
-      data.assets.length > 0 &&
-      data.assets.every(
-        (item) =>
-          item.hasOwnProperty("assetName") &&
-          item.hasOwnProperty("unitPrice") &&
-          item.hasOwnProperty("quantityOwned") &&
-          item.hasOwnProperty("targetPercent")
+      Object.keys(assets).length > 0 &&
+      Object.keys(assets).every(
+        (key) =>
+          assets[key].hasOwnProperty("assetName") &&
+          assets[key].hasOwnProperty("unitPrice") &&
+          assets[key].hasOwnProperty("quantityOwned") &&
+          assets[key].hasOwnProperty("targetPercent")
       )
     ) {
-      // Les données sont valides, itérez sur chaque élément et ajoutez un asset
-      data.assets.forEach((line) => {
+      Object.keys(assets).forEach((key) => {
+        const line = assets[key];
         addAsset(
           line.assetName,
           line.unitPrice,
@@ -37,8 +39,7 @@ window.addEventListener("message", (event) => {
     }
   } else if (event.data.action === "writeResponse") {
     const data = event.data.data;
-    console.log("EOIFCJZOIERFJZEFZEF DANS AFFICHAGE");
-    console.log(data);
+
     let { labels, oldQuantities, newQuantities } = prepareDataForChart(
       data.message
     );
@@ -72,9 +73,9 @@ function removeAsset(button) {
 }
 
 function getAssets() {
-  const assets = [];
+  const assets = {};
   const formElements = document.querySelectorAll("#assets-form .asset-row");
-  formElements.forEach((element) => {
+  formElements.forEach((element, index) => {
     const nameInput = element.querySelector("input[type='text']");
     const unitPriceInput = element.querySelector("input[name^='unitPrice']");
     const quantityOwnedInput = element.querySelector(
@@ -90,13 +91,15 @@ function getAssets() {
       quantityOwnedInput &&
       targetPercentInput
     ) {
-      const asset = {
+      const assetKey = nameInput.value; // Using the asset name as the key; ensure it's unique
+      // If asset names are not unique, consider using the index or another unique identifier
+
+      assets[assetKey] = {
         assetName: nameInput.value,
         unitPrice: parseFloat(unitPriceInput.value),
         quantityOwned: parseInt(quantityOwnedInput.value, 10),
         targetPercent: parseFloat(targetPercentInput.value),
       };
-      assets.push(asset);
     }
   });
   return assets;
@@ -113,7 +116,6 @@ function compute() {
     budget: parseFloat(budget),
   };
 
-  console.log(formData);
   parent.postMessage({ action: "sendData", data: formData }, "*");
 }
 
@@ -125,10 +127,8 @@ function prepareDataForChart(data) {
   let labels = [];
   let oldQuantities = [];
   let newQuantities = [];
-  console.log("incoming data for graph");
-  console.log(data);
+
   for (let key in data) {
-    console.log(key);
     if (data.hasOwnProperty(key)) {
       let line = data[key];
       labels.push(line.assetName);

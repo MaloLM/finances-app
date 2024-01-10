@@ -26,9 +26,6 @@ function readJsonFile(filename) {
 }
 
 function writeJsonFile(filename, data) {
-  console.log("data to write:");
-  console.log(data);
-
   const filePath = path.join(__dirname, "../data", filename);
   fs.writeFile(filePath, JSON.stringify(data, null, 2), "utf8", (err) => {
     if (err) {

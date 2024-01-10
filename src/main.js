@@ -37,16 +37,9 @@ app.whenReady().then(createWindow);
 // IPC communications -----------------------------
 
 ipcMain.on("write-data-channel", (event, data) => {
-  console.log(data);
-  console.log(typeof data);
-  let conclusion = writeJsonFile("tam_form_data.json", data);
-  console.log("conclusion", conclusion);
+  writeJsonFile("tam_form_data.json", data);
 
   let { data: struct, res } = run_tam_optimization(data);
-  console.log("STRUCTTTT");
-  console.log(struct);
-  console.log("RESSSSS");
-  console.log(res);
 
   writeJsonFile("tam_form_data.json", struct);
 
