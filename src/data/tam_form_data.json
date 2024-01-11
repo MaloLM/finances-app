@@ -3,13 +3,13 @@
     "TEST": {
       "assetName": "TEST",
       "unitPrice": 12,
-      "quantityOwned": 83,
+      "quantityOwned": 210,
       "targetPercent": null
     },
     "TESTTTT": {
       "assetName": "TESTTTT",
       "unitPrice": 3929,
-      "quantityOwned": 119,
+      "quantityOwned": 264,
       "targetPercent": null
     }
   },
