@@ -239,12 +239,16 @@ function prepareDataForChart(data) {
  *                                   for each label.
  */
 function display(labels, oldQuantities, newQuantities, nbsToBuy) {
+  var canvas = document.getElementById("stackedChartID");
   var context = document.getElementById("stackedChartID").getContext("2d");
 
   // Check if a chart instance exists and destroy it if it does
   if (window.myChart) {
     window.myChart.destroy();
   }
+
+  var barHeight = 50;
+  canvas.height = labels.length * barHeight;
 
   const OldQColor = "rgba(67, 125, 179, 1)";
   const newQColor = "rgba(84, 150, 150, 0.7)";
@@ -268,6 +272,7 @@ function display(labels, oldQuantities, newQuantities, nbsToBuy) {
       ],
     },
     options: {
+      maintainAspectRatio: false,
       plugins: {
         title: {
           display: true,
