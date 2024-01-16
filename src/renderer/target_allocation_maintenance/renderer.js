@@ -56,12 +56,12 @@ window.addEventListener("message", (event) => {
     }
   } else if (event.data.action === "writeResponse") {
     const data = event.data.data;
-    console.log(data.message)
-    let { labels, oldQuantities, newQuantities } = prepareDataForChart(
-      data.message
-    );
-    showResultTtile();
-    display(labels, oldQuantities, newQuantities);
+
+    let { labels, oldQuantities, quantitiesTobuy, nbsToBuy } =
+      prepareDataForChart(data.message);
+    showResultTitle();
+    showUpdateButton();
+    display(labels, oldQuantities, quantitiesTobuy, nbsToBuy);
   }
 });
 
@@ -202,20 +202,25 @@ let myChart = null;
 function prepareDataForChart(data) {
   let labels = [];
   let oldQuantities = [];
-  let newQuantities = [];
+  let quantitiesTobuy = [];
+  let nbsToBuy = [];
 
   for (let key in data) {
     if (data.hasOwnProperty(key)) {
       let asset = data[key];
-      console.log(asset.newProp)
       let label = `${asset.assetName} (${asset.newProp}%)`;
+      let oldQ = asset.oldQuantity * asset.unitPrice;
+      let nbToBuy = asset.additionalQuantity;
+      let QtoBuy = nbToBuy * asset.unitPrice;
+
       labels.push(label);
-      oldQuantities.push(asset.oldQuantity);
-      newQuantities.push(asset.newQuantity);
+      oldQuantities.push(oldQ);
+      quantitiesTobuy.push(QtoBuy);
+      nbsToBuy.push(nbToBuy);
     }
   }
 
-  return { labels, oldQuantities, newQuantities };
+  return { labels, oldQuantities, quantitiesTobuy, nbsToBuy };
 }
 /**
  * Creates and displays a bar chart using Chart.js. The chart visualizes the data provided
@@ -233,19 +238,19 @@ function prepareDataForChart(data) {
  * @param {number[]} newQuantities - An array of numbers representing the new quantities
  *                                   for each label.
  */
-function display(labels, oldQuantities, newQuantities) {
+function display(labels, oldQuantities, newQuantities, nbsToBuy) {
   var context = document.getElementById("stackedChartID").getContext("2d");
 
   // Check if a chart instance exists and destroy it if it does
-  if (myChart) {
-    myChart.destroy();
+  if (window.myChart) {
+    window.myChart.destroy();
   }
 
   const OldQColor = "rgba(67, 125, 179, 1)";
   const newQColor = "rgba(84, 150, 150, 0.7)";
 
   // Create a new chart instance
-  myChart = new Chart(context, {
+  window.myChart = new Chart(context, {
     type: "bar",
     data: {
       labels: labels,
@@ -268,6 +273,23 @@ function display(labels, oldQuantities, newQuantities) {
           display: true,
           text: "New Target Allocation",
         },
+        tooltip: {
+          callbacks: {
+            label: function (context) {
+              let label = context.dataset.label || "";
+
+              if (label === "Next Buy") {
+                label += `: ${context.raw} (Quantity to buy: ${
+                  nbsToBuy[context.dataIndex]
+                })`;
+              } else {
+                label += `: ${context.raw}`;
+              }
+
+              return label;
+            },
+          },
+        },
       },
       scales: {
         x: {
@@ -282,16 +304,28 @@ function display(labels, oldQuantities, newQuantities) {
 }
 
 /**
- * Displays the result title on the webpage. This function is used to make the element with
- * the ID 'resultTitle' visible on the page. It is typically called to indicate that results
- * (such as chart data or calculation outputs) are available and displayed to the user.
- *
- * The function assumes that an element with the ID 'resultTitle' exists in the DOM and is
- * initially set to not be displayed ('display: none' or similar).
- *
- * Note: This function may also contain additional code to compute and display results,
- * as indicated by the placeholder comment.
+ * Makes the 'resultTitle' element visible on the webpage.
+ * Assumes the element is initially hidden and present in the DOM.
+ * Can include additional code for result computation and display.
  */
-function showResultTtile() {
+function showResultTitle() {
   document.getElementById("resultTitle").style.display = "block";
+}
+
+/**
+ * Shows the 'update configuration' button on the page.
+ * This function selects the button element with the ID 'update-config-button'
+ * and sets its display style to 'block', making it visible on the page.
+ */
+function showUpdateButton() {
+  document.getElementById("update-config-button").style.display = "block";
+}
+
+/**
+ * Hides the 'update configuration' button on the page.
+ * This function selects the button element with the ID 'update-config-button'
+ * and sets its display style to 'none', making it invisible on the page.
+ */
+function hideUpdateButton() {
+  document.getElementById("update-config-button").style.display = "none";
 }
