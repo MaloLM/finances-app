@@ -12,7 +12,7 @@ const {
  */
 function createWindow() {
   const win = new BrowserWindow({
-    width: 800,
+    width: 850,
     height: 600,
     webPreferences: {
       nodeIntegration: true,
@@ -62,14 +62,28 @@ app.whenReady().then(createWindow);
 ipcMain.on("write-data-channel", (event, data) => {
   writeJsonFile("tam_form_data.json", data);
 
-  let { data: struct, res } = run_tam_optimization(data);
-
-  writeJsonFile("tam_form_data.json", struct);
+  let res = run_tam_optimization(data);
 
   event.sender.send("write-response-channel", {
     status: "tam-result",
     message: res,
   });
+});
+
+/**
+ * Event listener for 'update-tam-config'.
+ * Listens for the 'update-tam-config' event and writes the provided data to 'tam_form
+_data.json'.
+*
+
+@param {Event} event - The event object provided by ipcMain.
+@param {Object} data - The data to be written to 'tam_form_data.json'. This object contains the configuration data that needs to be updated.
+*/
+ipcMain.on("update-tam-config", (event, data) => {
+  writeJsonFile("tam_form_data.json", data);
+});
+ipcMain.on("update-tam-config", (event, data) => {
+  writeJsonFile("tam_form_data.json", data);
 });
 
 /**

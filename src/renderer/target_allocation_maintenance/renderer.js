@@ -1,4 +1,5 @@
 let assetId = 0;
+let result;
 
 parent.postMessage({ action: "requestData" }, "*");
 
@@ -57,11 +58,14 @@ window.addEventListener("message", (event) => {
   } else if (event.data.action === "writeResponse") {
     const data = event.data.data;
 
-    let { labels, oldQuantities, quantitiesTobuy, nbsToBuy } =
+    result = data.message;
+
+    let { labels, oldQuantities, quantitiesTobuy, nbsToBuy, targets } =
       prepareDataForChart(data.message);
+
     showResultTitle();
     showUpdateButton();
-    display(labels, oldQuantities, quantitiesTobuy, nbsToBuy);
+    display(labels, oldQuantities, quantitiesTobuy, nbsToBuy, targets);
   }
 });
 
@@ -182,6 +186,94 @@ function compute() {
   parent.postMessage({ action: "sendData", data: formData }, "*");
 }
 
+/**
+ * Updates the configuration of assets based on the global `result` object. This function takes
+ * asset data from the form, processes it against the `result` data, and then posts the updated
+ * configuration to the parent window. It also updates the form's displayed quantities using
+ * `updateFormOwnedQuantities`.
+ *
+ * Global Dependencies:
+ * - Assumes the existence of a global `result` object containing updated asset data.
+ * - Relies on the `updateFormOwnedQuantities` function for updating form elements.
+ * - Depends on the `getAssets` function to retrieve current asset data from the form.
+ *
+ * Side Effects:
+ * - Modifies the DOM elements within the "#assets-form" based on `result` data.
+ * - Sends a message to the parent window with the updated asset configuration.
+ *
+ * @throws {Error} Throws an error if `result` is not defined or in an unexpected format.
+ */
+function update_config() {
+  if (result) {
+    const assetsObject = getAssets(); // This is an object, not an array
+    const budget = document.getElementById("budget").value;
+    const currency = document.getElementById("currency").value;
+
+    // Convert the assets object into an array of its values
+    const assetsArray = Object.values(assetsObject);
+
+    // Convert the result object into an array of its values
+    const resultArray = Object.values(result);
+
+    // Process each asset in the array
+    assetsArray.forEach((asset) => {
+      if (asset.hasOwnProperty("quantityOwned")) {
+        // Use the resultArray for finding the corresponding result
+        const correspondingResult = resultArray.find(
+          (r) => r.assetName === asset.assetName
+        );
+
+        if (correspondingResult) {
+          asset.quantityOwned = correspondingResult.newQuantity;
+        }
+      }
+    });
+
+    // Convert the assets array back to an object if necessary
+    const updatedAssetsObject = {};
+    assetsArray.forEach((asset) => {
+      updatedAssetsObject[asset.assetName] = asset;
+    });
+
+    const formData = {
+      assets: updatedAssetsObject,
+      currency: currency,
+      budget: parseFloat(budget),
+    };
+
+    parent.postMessage({ action: "updateConfig", data: formData }, "*");
+    updateFormOwnedQuantities(result);
+  }
+}
+
+function updateFormOwnedQuantities(data) {
+  const formElements = document.querySelectorAll("#assets-form .asset-row");
+  formElements.forEach((element) => {
+    const nameInput = element.querySelector("input[type='text']");
+    const quantityOwnedInput = element.querySelector(
+      "input[name^='quantityOwned']"
+    );
+
+    if (nameInput && quantityOwnedInput) {
+      const assetKey = nameInput.value;
+      const correspondingData = data[assetKey];
+
+      if (
+        correspondingData &&
+        correspondingData.hasOwnProperty("newQuantity")
+      ) {
+        quantityOwnedInput.value = correspondingData.newQuantity;
+      } else {
+        console.error(
+          "No matching data found for asset:",
+          assetKey,
+          "or 'newQuantity' property is missing"
+        );
+      }
+    }
+  });
+}
+
 // CHART DRAWING -------------------------------------------------
 
 let myChart = null;
@@ -204,6 +296,7 @@ function prepareDataForChart(data) {
   let oldQuantities = [];
   let quantitiesTobuy = [];
   let nbsToBuy = [];
+  let targets = [];
 
   for (let key in data) {
     if (data.hasOwnProperty(key)) {
@@ -212,16 +305,19 @@ function prepareDataForChart(data) {
       let oldQ = asset.oldQuantity * asset.unitPrice;
       let nbToBuy = asset.additionalQuantity;
       let QtoBuy = nbToBuy * asset.unitPrice;
+      let target = asset.assetProp * asset.unitPrice;
 
       labels.push(label);
       oldQuantities.push(oldQ);
       quantitiesTobuy.push(QtoBuy);
       nbsToBuy.push(nbToBuy);
+      targets.push(target);
     }
   }
 
-  return { labels, oldQuantities, quantitiesTobuy, nbsToBuy };
+  return { labels, oldQuantities, quantitiesTobuy, nbsToBuy, targets };
 }
+
 /**
  * Creates and displays a bar chart using Chart.js. The chart visualizes the data provided
  * through arrays of labels, old quantities, and new quantities. It constructs two datasets
@@ -238,7 +334,7 @@ function prepareDataForChart(data) {
  * @param {number[]} newQuantities - An array of numbers representing the new quantities
  *                                   for each label.
  */
-function display(labels, oldQuantities, newQuantities, nbsToBuy) {
+function display(labels, oldQuantities, newQuantities, nbsToBuy, targets) {
   var canvas = document.getElementById("stackedChartID");
   var context = document.getElementById("stackedChartID").getContext("2d");
 
@@ -253,23 +349,28 @@ function display(labels, oldQuantities, newQuantities, nbsToBuy) {
   const OldQColor = "rgba(67, 125, 179, 1)";
   const newQColor = "rgba(84, 150, 150, 0.7)";
 
+  // Bar chart datasets
+  const barDatasets = [
+    {
+      label: "Current Volume",
+      backgroundColor: OldQColor,
+      data: oldQuantities,
+      order: 2,
+    },
+    {
+      label: "Next Buy",
+      backgroundColor: newQColor,
+      data: newQuantities,
+      order: 2,
+    },
+  ];
+
   // Create a new chart instance
   window.myChart = new Chart(context, {
     type: "bar",
     data: {
       labels: labels,
-      datasets: [
-        {
-          label: "Current Volume",
-          backgroundColor: OldQColor,
-          data: oldQuantities,
-        },
-        {
-          label: "Next Buy",
-          backgroundColor: newQColor,
-          data: newQuantities,
-        },
-      ],
+      datasets: [...barDatasets],
     },
     options: {
       maintainAspectRatio: false,

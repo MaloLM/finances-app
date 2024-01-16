@@ -27,6 +27,11 @@ window.addEventListener("message", (event) => {
     event.data.action === "sendData"
   ) {
     ipcRenderer.send("write-data-channel", event.data.data);
+  } else if (
+    event.source === document.getElementById("feature-iframe").contentWindow &&
+    event.data.action === "updateConfig"
+  ) {
+    ipcRenderer.send("update-tam-config", event.data.data);
   }
 });
 
