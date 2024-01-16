@@ -56,7 +56,7 @@ window.addEventListener("message", (event) => {
     }
   } else if (event.data.action === "writeResponse") {
     const data = event.data.data;
-
+    console.log(data.message)
     let { labels, oldQuantities, newQuantities } = prepareDataForChart(
       data.message
     );
@@ -206,15 +206,17 @@ function prepareDataForChart(data) {
 
   for (let key in data) {
     if (data.hasOwnProperty(key)) {
-      let line = data[key];
-      labels.push(line.assetName);
-      oldQuantities.push(line.oldQuantity);
-      newQuantities.push(line.newQuantity);
+      let asset = data[key];
+      console.log(asset.newProp)
+      let label = `${asset.assetName} (${asset.newProp}%)`;
+      labels.push(label);
+      oldQuantities.push(asset.oldQuantity);
+      newQuantities.push(asset.newQuantity);
     }
   }
+
   return { labels, oldQuantities, newQuantities };
 }
-
 /**
  * Creates and displays a bar chart using Chart.js. The chart visualizes the data provided
  * through arrays of labels, old quantities, and new quantities. It constructs two datasets
