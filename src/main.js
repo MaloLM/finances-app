@@ -21,6 +21,10 @@ function createWindow() {
     },
   });
 
+  // open DevTools automatically
+  win.webContents.openDevTools();
+
+  // Open main winder
   win.loadFile("./src/renderer/index.html");
 }
 
