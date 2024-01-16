@@ -21,6 +21,7 @@ parent.postMessage({ action: "requestData" }, "*");
 window.addEventListener("message", (event) => {
   if (event.data.action === "responseData") {
     let dataString = event.data.data;
+
     const data = JSON.parse(dataString);
 
     let assets = data.assets;

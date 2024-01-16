@@ -1,25 +1,47 @@
 function run_tam_optimization(data) {
+  // Initialisation
+  let totalValue = Object.values(data.assets).reduce(
+    (sum, asset) => sum + asset.unitPrice * asset.quantityOwned,
+    data.budget
+  );
+
   let res = {};
+  let budget = data.budget;
 
-  for (let assetName in data.assets) {
-    // Assurez-vous que la propriété appartient bien à l'objet
-    if (data.assets.hasOwnProperty(assetName)) {
+  // Boucle d'optimisation
+  while (budget > 0) {
+    let allocationFound = false;
+
+    for (let assetName in data.assets) {
       let asset = data.assets[assetName];
+      let currentValue = asset.unitPrice * asset.quantityOwned;
+      let targetValue = totalValue * (asset.targetPercent / 100);
+      let gap = targetValue - currentValue;
+      let additionalQuantity = 0;
 
-      // Calculer une nouvelle quantité aléatoire
-      let randomIncrement = Math.floor(Math.random() * 101); // Nombre aléatoire entre 0 et 100
-      let newQuantity = asset.quantityOwned + randomIncrement;
+      if (gap > asset.unitPrice && budget >= asset.unitPrice) {
+        additionalQuantity = Math.min(
+          Math.floor(gap / asset.unitPrice),
+          Math.floor(budget / asset.unitPrice)
+        );
+        asset.quantityOwned += additionalQuantity;
+        budget -= additionalQuantity * asset.unitPrice;
+        allocationFound = true;
+      }
 
-      // Mettre à jour la quantité dans 'data'
-      asset.quantityOwned = newQuantity;
-
-      // Ajouter les informations dans 'res'
       res[assetName] = {
-        oldQuantity: asset.quantityOwned - randomIncrement,
-        newQuantity: newQuantity,
+        oldQuantity: res[assetName]
+          ? res[assetName].oldQuantity
+          : asset.quantityOwned - additionalQuantity,
+        newQuantity: asset.quantityOwned,
         unitPrice: asset.unitPrice,
         assetName: asset.assetName,
+        assetProp: asset.targetPercent,
       };
+    }
+
+    if (!allocationFound) {
+      break;
     }
   }
 
