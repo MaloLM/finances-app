@@ -1,5 +1,6 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
 const { readJsonFile, writeJsonFile } = require("./services/dataFiles");
+const path = require("path");
 const {
   run_tam_optimization,
 } = require("./services/targetAllocationMaintenance");
@@ -16,8 +17,8 @@ function createWindow() {
     height: 600,
     webPreferences: {
       nodeIntegration: true,
-      contextIsolation: false,
-      enableRemoteModule: true,
+      contextIsolation: true, // Recommended for security
+      preload: path.join(__dirname, 'preload.bundle.js')
     },
   });
 
@@ -25,7 +26,7 @@ function createWindow() {
   win.webContents.openDevTools();
 
   // Open main winder
-  win.loadFile("./src/renderer/index.html");
+  win.loadFile("index.html");
 }
 
 /**
