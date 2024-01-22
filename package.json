@@ -5,10 +5,12 @@
   "main": "src/electron.js",
   "scripts": {
     "start": "npm run build && electron ./dist/main.bundle.js",
-    "dev": "webpack serve --mode development",
+    "dev": "concurrently \"npm run dev:main\" \"npm run dev:renderer\"",
     "build": "npm run build:main && npm run build:renderer",
     "build:main": "webpack --config webpack.main.config.js",
-    "build:renderer": "webpack --config webpack.renderer.config.js"
+    "build:renderer": "webpack --config webpack.renderer.config.js",
+    "dev:main": "webpack --config webpack.main.config.js --watch",
+    "dev:renderer": "webpack serve --config webpack.renderer.config.js --mode development"
   },
   "keywords": [],
   "author": "Malo Le Mestre",
@@ -18,10 +20,12 @@
     "@babel/preset-env": "^7.23.8",
     "@babel/preset-typescript": "^7.23.3",
     "@types/chart.js": "^2.9.41",
+    "@types/electron": "^1.6.10",
     "@types/react": "^18.2.47",
     "@types/react-dom": "^18.2.18",
     "autoprefixer": "^10.4.16",
     "babel-loader": "^9.1.3",
+    "concurrently": "^8.2.2",
     "css-loader": "^6.9.0",
     "electron": "^28.1.3",
     "html-webpack-plugin": "^5.6.0",
@@ -38,9 +42,11 @@
     "webpack-dev-server": "^4.15.1"
   },
   "dependencies": {
-    "@types/electron": "^1.6.10",
     "chart.js": "^4.4.1",
+    "formik": "^2.4.5",
     "fs": "^0.0.1-security",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "react-chartjs-2": "^5.2.0",
+    "yup": "^1.3.3"
   }
 }

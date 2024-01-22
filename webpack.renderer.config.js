@@ -5,9 +5,6 @@ module.exports = {
   mode: 'development',
   target: 'electron-renderer', // or 'electron-main' based on your context
   entry: './src/renderer/index.tsx', // Update this path based on your entry file location
-  externals: {
-    electron: 'require("electron")'
-  },
   module: {
     rules: [
       {
@@ -28,13 +25,21 @@ module.exports = {
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
   },
+  devServer: {
+    static: {
+      directory: path.join(__dirname, 'dist'), // contentBase is replaced by static.directory
+    },
+    historyApiFallback: true, // For Single Page Applications
+    hot: true, // Enable hot module replacement
+    port: 8080, // Default is 8080
+  },
+  output: {
+    filename: 'renderer.bundle.js',
+    path: path.resolve(__dirname, 'dist'),
+  },
   plugins: [
     new HtmlWebpackPlugin({
       template: './public/index.html', // Update this path based on your HTML template location
     }),
   ],
-  output: {
-    filename: 'renderer.bundle.js',
-    path: path.resolve(__dirname, 'dist'),
-  },
 };
