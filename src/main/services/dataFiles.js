@@ -1,5 +1,6 @@
 const path = require("path");
 const fs = require("fs");
+const { app } = require('electron');
 
 /**
  * Reads a JSON file and returns its content.
@@ -11,9 +12,21 @@ const fs = require("fs");
  *                                   as an object, or as a raw string if the file is empty.
  *                                   Rejects with an error if the file cannot be read.
  */
+
+function getDataFilePath(filename) {
+  // Check if the app is running in production (packaged)
+  if (app.isPackaged) {
+    // Path for read-only data inside the asar package
+    return path.join(__dirname, filename);
+  } else {
+    // Development path
+    return path.join(__dirname, '..', 'src', 'data', filename);
+  }
+}
+
 function readJsonFile(filename) {
   return new Promise((resolve, reject) => {
-    const filePath = path.join(__dirname, "../data", filename);
+    const filePath = getDataFilePath(filename)
 
     fs.readFile(filePath, "utf8", (err, data) => {
       if (err) {
