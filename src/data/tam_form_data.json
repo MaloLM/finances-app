@@ -1,42 +1,42 @@
 {
-  "assets": {
-    "S&P 500": {
+  "assets": [
+    {
       "assetName": "S&P 500",
       "unitPrice": 20,
       "quantityOwned": 455,
       "targetPercent": 41
     },
-    "Europe 600": {
+    {
       "assetName": "Europe 600",
       "unitPrice": 25,
       "quantityOwned": 222,
       "targetPercent": 25
     },
-    "EMERGENTS": {
+    {
       "assetName": "EMERGENTS",
       "unitPrice": 30,
       "quantityOwned": 75,
       "targetPercent": 14
     },
-    "JAPAN TOPIX": {
+    {
       "assetName": "JAPAN TOPIX",
       "unitPrice": 100,
       "quantityOwned": 13,
       "targetPercent": 6
     },
-    "Russell 2000": {
+    {
       "assetName": "Russell 2000",
       "unitPrice": 200,
       "quantityOwned": 10,
       "targetPercent": 9
     },
-    "EUR Small Cap": {
+    {
       "assetName": "EUR Small Cap",
       "unitPrice": 250,
       "quantityOwned": 8,
       "targetPercent": 5
     }
-  },
+  ],
   "currency": "USD",
   "budget": 2000
 }
