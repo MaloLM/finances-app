@@ -11,13 +11,22 @@ const {
  * such as node integration, disabling context isolation, and enabling the remote module.
  * After creating the window, it loads the HTML file from the specified path.
  */
+
+// To return to a build envrionment : 
+// - contextIsolation to true : OK
+// - load the file : OK
+// - load the preload file  : OK
+// - change the getDataFilePath in dataFiles.js : OK
+// - change the api/electron.js in renderer : OK
+// - remove full screen mode [optional]
 function createWindow() {
   const win = new BrowserWindow({
     width: 850,
     height: 600,
+    fullscreen: true, 
     webPreferences: {
       nodeIntegration: true,
-      contextIsolation: true, // Recommended for security
+      contextIsolation: true,
       preload: path.join(__dirname, 'preload.bundle.js')
     },
   });
@@ -27,6 +36,8 @@ function createWindow() {
 
   // Open main winder
   win.loadFile("index.html");
+  // win.loadURL('http://localhost:8080');
+
 }
 
 /**
