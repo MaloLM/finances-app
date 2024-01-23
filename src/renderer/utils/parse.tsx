@@ -1,4 +1,4 @@
-import { TamFormData } from "./types";
+import { ChartData, TAMFormResponse, TAMFormResponseAsset, TamFormData } from "./types";
 
 export function parseTamFormData(jsonString: string): TamFormData {
   try {
@@ -9,31 +9,54 @@ export function parseTamFormData(jsonString: string): TamFormData {
   }
 }
 
+export function parseToTamResponse(input: any): TAMFormResponse {
+  if (Array.isArray(input) && input.every(asset => typeof asset === 'object' && 'assetName' in asset)) {
+    return { assets: input as TAMFormResponseAsset[] };
+  } else {
+    throw new Error("Invalid input type or structure for parseToTamResponse");
+  }
+}
 
-// TODO: create a type for the data returned by the TAM algorithm
-export function prepareDataForTAMChart(data) {
+export function convertToChartData(tamResponse: TAMFormResponse): ChartData {
   let labels: string[] = [];
   let oldQuantities: number[] = [];
-  let quantitiesTobuy: number[] = [];
+  let quantitiesToBuy: number[] = [];
   let nbsToBuy: number[] = [];
   let targets: number[] = [];
 
-  for (let key in data) {
-    if (data.hasOwnProperty(key)) {
-      let asset = data[key];
-      let label = `${asset.assetName} (${asset.newProp}%)`;
-      let oldQ = asset.oldQuantity * asset.unitPrice;
-      let nbToBuy = asset.additionalQuantity;
-      let QtoBuy = nbToBuy * asset.unitPrice;
-      let target = asset.assetProp * asset.unitPrice;
+  for (const asset of tamResponse.assets) {
+    const label = `${asset.assetName} (${asset.newProp}%)`;
+    const oldQ = asset.oldQuantity * asset.unitPrice;
+    const nbToBuy = asset.additionalQuantity;
+    const QtoBuy = nbToBuy * asset.unitPrice;
+    const target = asset.assetProp * asset.unitPrice;
 
-      labels.push(label);
-      oldQuantities.push(oldQ);
-      quantitiesTobuy.push(QtoBuy);
-      nbsToBuy.push(nbToBuy);
-      targets.push(target);
-    }
+    labels.push(label);
+    oldQuantities.push(oldQ);
+    quantitiesToBuy.push(QtoBuy);
+    nbsToBuy.push(nbToBuy);
+    targets.push(target);
   }
 
-  return { labels, oldQuantities, quantitiesTobuy, nbsToBuy, targets };
+  const data: ChartData = {
+    labels: labels,
+    nbsToBuy: nbsToBuy,
+    targets: targets,
+    datasets: [
+      {
+        label: 'Current Volume',
+        data: oldQuantities,
+        backgroundColor: 'rgba(67, 125, 179, 1)',
+        order: 2,
+      },
+      {
+        label: 'Next Buy',
+        data: quantitiesToBuy,
+        backgroundColor: 'rgba(84, 150, 150, 0.7)',
+        order: 2,
+      },
+    ],
+  };
+
+  return data;
 }
