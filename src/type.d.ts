@@ -4,6 +4,7 @@ declare global {
     electron: {
       requestData: () => any;
       sendData: (data: any) => void;
+      saveTAMForm: (data: any) => void;
       onResponseData: (callback: (event: any, data: any) => void) => void;
       onWriteResponse: (callback: (event: any, response: any) => void) => void;
     };
