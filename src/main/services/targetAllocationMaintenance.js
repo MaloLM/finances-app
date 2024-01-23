@@ -53,13 +53,15 @@ function run_tam_optimization(data) {
     budget
   );
 
+  let resultList = [];
   for (let assetName in res) {
     let asset = res[assetName];
     let newProp = ((asset.unitPrice * asset.newQuantity) / totalValue) * 100;
     res[assetName].newProp = Math.round(newProp * 10) / 10;
+    resultList.push(asset);
   }
 
-  return res;
+  return resultList;
 }
 
 module.exports = { run_tam_optimization };

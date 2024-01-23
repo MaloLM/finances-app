@@ -1,33 +1,27 @@
 {
   "assets": [
     {
-      "assetName": "S&P 500",
-      "unitPrice": 20,
-      "quantityOwned": 455,
-      "targetPercent": 41
-    },
-    {
       "assetName": "Europe 600",
       "unitPrice": 25,
-      "quantityOwned": 222,
+      "quantityOwned": 252,
       "targetPercent": 25
     },
     {
       "assetName": "EMERGENTS",
       "unitPrice": 30,
-      "quantityOwned": 75,
+      "quantityOwned": 117,
       "targetPercent": 14
     },
     {
       "assetName": "JAPAN TOPIX",
       "unitPrice": 100,
-      "quantityOwned": 13,
+      "quantityOwned": 15,
       "targetPercent": 6
     },
     {
       "assetName": "Russell 2000",
       "unitPrice": 200,
-      "quantityOwned": 10,
+      "quantityOwned": 11,
       "targetPercent": 9
     },
     {
@@ -37,6 +31,6 @@
       "targetPercent": 5
     }
   ],
-  "currency": "USD",
-  "budget": 2000
+  "currency": "NZD",
+  "budget": 10000
 }

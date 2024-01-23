@@ -14,14 +14,8 @@ const { app } = require('electron');
  */
 
 function getDataFilePath(filename) {
-  // Check if the app is running in production (packaged)
-  if (app.isPackaged) {
-    // Path for read-only data inside the asar package
-    return path.join(__dirname, filename);
-  } else {
-    // Development path
-    return path.join(__dirname, '..', 'src', 'data', filename);
-  }
+  return path.join(__dirname, filename); // Final build path
+  // return path.join(__dirname, '..', 'src', 'data', filename); // Development path
 }
 
 function readJsonFile(filename) {
@@ -58,7 +52,7 @@ function readJsonFile(filename) {
  *                 will be handled internally, but not returned or thrown.
  */
 function writeJsonFile(filename, data) {
-  const filePath = path.join(__dirname, "../data", filename);
+  const filePath = getDataFilePath(filename); 
   fs.writeFile(filePath, JSON.stringify(data, null, 2), "utf8", (err) => {
     if (err) {
       return err;
