@@ -2,15 +2,15 @@
   "name": "fin-app",
   "version": "1.0.0",
   "description": "a local electron app for simple financial use cases",
-  "main": "src/electron.js",
+  "main": "./src/main/main.js",
   "scripts": {
     "start": "npm run build && electron ./dist/main.bundle.js",
-    "dev": "concurrently \"npm run dev:main\" \"npm run dev:renderer\"",
     "build": "npm run build:main && npm run build:renderer",
     "build:main": "webpack --config webpack.main.config.js",
     "build:renderer": "webpack --config webpack.renderer.config.js",
-    "dev:main": "webpack --config webpack.main.config.js --watch",
-    "dev:renderer": "webpack serve --config webpack.renderer.config.js --mode development"
+    "dev": "concurrently \"npm run dev:renderer\" \"electron .\"",
+    "dev:renderer": "webpack serve --config webpack.renderer.config.js --mode development",
+    "dev:main": "electron . "
   },
   "keywords": [],
   "author": "Malo Le Mestre",

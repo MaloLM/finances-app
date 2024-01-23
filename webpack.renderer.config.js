@@ -3,8 +3,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   mode: 'development',
-  target: 'electron-renderer', // or 'electron-main' based on your context
-  entry: './src/renderer/index.tsx', // Update this path based on your entry file location
+  target: 'electron-renderer',
+  entry: './src/renderer/index.tsx', 
   module: {
     rules: [
       {
@@ -26,12 +26,9 @@ module.exports = {
     extensions: ['.tsx', '.ts', '.js'],
   },
   devServer: {
-    static: {
-      directory: path.join(__dirname, 'dist'), // contentBase is replaced by static.directory
-    },
-    historyApiFallback: true, // For Single Page Applications
-    hot: true, // Enable hot module replacement
-    port: 8080, // Default is 8080
+    historyApiFallback: true, 
+    hot: true,
+    port: 8080, 
   },
   output: {
     filename: 'renderer.bundle.js',
