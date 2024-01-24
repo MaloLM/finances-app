@@ -1,0 +1,39 @@
+import React, { useState } from "react";
+import { SidebarButtonIcon, StatsIcon, BoxesIcon } from "../assets";
+
+export const Sidebar = () => {
+    const [isSidebarOpen, setSidebarOpen] = useState(false);
+
+    const toggleSidebar = () => {
+        setSidebarOpen(!isSidebarOpen);
+    };
+
+
+    return (
+        <>
+            <button onClick={toggleSidebar} aria-controls="default-sidebar" type="button" className={`fixed top-2 z-50 inline-flex items-center p-2 mt-2 ${isSidebarOpen ? "ms-68 xl:ms-76" : "ms-3"} text-sm text-gray-500 rounded-lg  hover:bg-lightNobleBlack focus:outline-none focus:ring-2 focus:ring-lightNobleBlack dark:text-gray-400`}>
+                <span className="sr-only">{isSidebarOpen ? 'Close sidebar' : 'Open sidebar'}</span>
+                <SidebarButtonIcon className={isSidebarOpen? '': "text-nobleGold"} />
+            </button>
+
+            <aside id="default-sidebar" className={`fixed top-0 left-0 z-40 w-64 xl:w-72 h-screen transition-transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} `} aria-label="Sidebar">
+                <div className="h-full px-3 py-4 overflow-y-auto bg-nobleBlack  border-r border-lightNobleBlack">
+                    <ul className="space-y-2 font-medium">
+                        <li>
+                            <a href="#" className="flex items-center p-2 text-gray-300 hover:text-nobleGold rounded-lg dark:text-white hover:bg-lightNobleBlack dark:hover:bg-gray-700 group">
+                                <StatsIcon />
+                                <span className="ms-3">Target Allocation Maintenance</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" className="flex items-center p-2 text-gray-300 hover:text-nobleGold rounded-lg dark:text-white hover:bg-lightNobleBlack  group">
+                                <BoxesIcon className="hover:text-cyan-100" />
+                                <span className="flex-1 ms-3 whitespace-nowrap">Other Feature</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </aside>
+        </>
+    );
+};

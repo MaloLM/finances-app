@@ -3,6 +3,7 @@ import { useIpcRenderer } from "./api/electron";
 import "./styles/App.css";
 import { TargetAllocationMaintenance } from "./pages/TargetAllocationMaintenance";
 import { TamFormData, parseTamFormData } from "./utils";
+import { Sidebar } from "./components";
 
 const App = () => {
   const [data, setData] = React.useState<TamFormData>({} as TamFormData);
@@ -10,7 +11,6 @@ const App = () => {
   const { sendRequestData, onResponseData } = useIpcRenderer();
 
   useEffect(() => {
-    // Define the response handler
     const handleResponse = (event, responseData) => {
       if (event.error) {
         console.error(event.error);
@@ -19,41 +19,21 @@ const App = () => {
       }
       setDataRetreived(true);
     };
-    // Set up the listener for the response
+
     onResponseData(handleResponse);
     sendRequestData();
   }, []);
 
-  function toggleMenu(): void {
-    var menu = document.getElementById("menuDropdown") as HTMLDivElement;
-    if (menu.style.display === "none" || menu.style.display === "") {
-      menu.style.display = "flex";
-    } else {
-      menu.style.display = "none";
-    }
-  }
+  // TODO: Layout 
+  // TODO: add routage
+  // TODO: context ? 
 
   return (
     <div className="App">
-      <div className="header p-1">
-        <div className="menu-icon" onClick={() => toggleMenu()}>
-          <div className="menu-line"></div>
-          <div className="menu-line"></div>
-          <div className="menu-line"></div>
-        </div>
-        <span id="feature-title"></span>
-      </div>
-      <div className="menu-dropdown" id="menuDropdown">
-        <a
-          href="#"
-        >Target Allocation Maintenance</a>
-        <a
-          href="#"
-        >Another feature</a>
-      </div>
-      {dataRetreived &&
+      <Sidebar />
+      {/* {dataRetreived &&
         <TargetAllocationMaintenance Data={data} />
-      }
+      } */}
     </div>
   );
 };
