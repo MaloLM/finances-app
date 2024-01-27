@@ -1,13 +1,15 @@
 import React, { useEffect } from "react";
 import { useIpcRenderer } from "./api/electron";
 import "./styles/App.css";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { TargetAllocationMaintenance } from "./pages/TargetAllocationMaintenance";
 import { TamFormData, parseTamFormData } from "./utils";
-import { Sidebar } from "./components";
+import { Layout } from "./components";
+import { OtherFeature } from "./pages/OtherFeature";
+import { NotFoundComponent } from "./pages/NotFound";
 
 const App = () => {
   const [data, setData] = React.useState<TamFormData>({} as TamFormData);
-  const [dataRetreived, setDataRetreived] = React.useState<boolean>(false);
   const { sendRequestData, onResponseData } = useIpcRenderer();
 
   useEffect(() => {
@@ -17,23 +19,24 @@ const App = () => {
       } else {
         setData(parseTamFormData(responseData));
       }
-      setDataRetreived(true);
     };
 
     onResponseData(handleResponse);
     sendRequestData();
   }, []);
 
-  // TODO: Layout 
-  // TODO: add routage
-  // TODO: context ? 
-
   return (
     <div className="App">
-      <Sidebar />
-      {/* {dataRetreived &&
-        <TargetAllocationMaintenance Data={data} />
-      } */}
+      <Router>
+        <Layout>
+          <Routes>
+            <Route path="/" element={<TargetAllocationMaintenance Data={data} />} />
+            <Route path="/tam" element={<TargetAllocationMaintenance Data={data} />} />
+            <Route path="/other-feature" element={< OtherFeature />} />
+            <Route path="*" element={<NotFoundComponent />} />
+          </Routes>
+        </Layout>
+      </Router>
     </div>
   );
 };
