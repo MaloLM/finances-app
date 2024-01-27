@@ -13,10 +13,10 @@ const {
  */
 
 // To return to a build envrionment : 
-// - contextIsolation to true : OK
-// - load the file : OK
-// - load the preload file  : OK
-// - change the getDataFilePath in dataFiles.js : OK
+// - contextIsolation to true :
+// - load the file : 
+// - load the preload file  : 
+// - change the getDataFilePath in dataFiles.js : 
 // - change the api/electron.js in renderer : OK
 // - remove full screen mode [optional]
 function createWindow() {
@@ -26,8 +26,8 @@ function createWindow() {
     fullscreen: true, 
     webPreferences: {
       nodeIntegration: true,
-      contextIsolation: true,
-      preload: path.join(__dirname, 'preload.bundle.js')
+      contextIsolation: false,
+      // preload: path.join(__dirname, 'preload.bundle.js')
     },
   });
 
@@ -35,8 +35,8 @@ function createWindow() {
   win.webContents.openDevTools();
 
   // Open main winder
-  win.loadFile("index.html");
-  // win.loadURL('http://localhost:8080');
+  // win.loadFile("index.html");
+  win.loadURL('http://localhost:8080');
 
 }
 
