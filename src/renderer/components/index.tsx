@@ -1,3 +1,5 @@
 export * from "./TAMChart"
 export * from "./TAMForm"
 export * from "./Sidebar"
+export * from "./Layout"
+export * from "./Loading"
