@@ -26,7 +26,7 @@ const App = () => {
   }, []);
 
   return (
-    <div className="App">
+    <div className="App text-softWhite">
       <Router>
         <Layout>
           <Routes>

@@ -13,7 +13,7 @@ export const Layout = (props: LayoutProps) => {
             mt-14
             md:mt-10 md:mx-20
             lg:mt-10 lg:mx-40
-            xl:mt-10 xl:mx-60 bg-lightNobleBlack">
+            xl:mt-10 xl:mx-60 ">
         {props.children}
       </main>
     </div>

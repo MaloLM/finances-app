@@ -11,6 +11,7 @@ module.exports = {
       colors: {
         nobleBlack: '#0B0B0B',
         lightNobleBlack: '#262626',
+        softWhite: '#F8F8F8',
         sidebarGray: '#333333',
         nobleGold: '#D4AF37',
       },

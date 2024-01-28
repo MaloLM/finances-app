@@ -3,7 +3,8 @@ import { useState } from "react";
 import "../styles/TargetAllocationMaintenance.css";
 import { ChartData, parseToTamResponse, convertToChartData, TamFormData, TAMFormResponse } from "../utils";
 import { useIpcRenderer } from "../api/electron";
-import { Loading, TAMChart, TAMForm } from "../components";
+import { Card, Loading, TAMChart, TAMForm } from "../components";
+import { Button } from "../components/Button";
 
 export const TargetAllocationMaintenance = (props: { Data: TamFormData }) => {
     const [resultIsDisplayed, setResultIsDisplayed] = useState<boolean>(false);
@@ -43,14 +44,11 @@ export const TargetAllocationMaintenance = (props: { Data: TamFormData }) => {
 
 
     return (
-        <div className="flex flex-col gap-3 p-5 h-full">
+        <div className="flex flex-col gap-2 p-5 h-full">
             {isLoading ? <Loading /> :
                 <>
-                    <div className="flex  gap-2">
-                        <h1 className="text-lg font-bold">Current Allocation</h1>
-                        <button className="rounded-xl px-2" onClick={() => setSave(true)}>Save</button>
-                    </div>
                     <div>
+                        <Button onClick={() => setSave(false)}>Save</Button>
                         <TAMForm
                             assets={props.Data.assets}
                             budget={props.Data.budget}
@@ -69,8 +67,10 @@ export const TargetAllocationMaintenance = (props: { Data: TamFormData }) => {
                     </div>
                     {resultIsDisplayed &&
                         <div>
-                            <h1 className="hidden" id="resultTitle" >Result</h1>
-                            <button className="px-2 bg-orange-400" onClick={() => setConfigIsUpdated(true)}> Update Config</button>
+                            <div>
+                                <h1 className="hidden*£" id="resultTitle" >Result</h1>
+                                <button className="px-2 bg-orange-400" onClick={() => setConfigIsUpdated(true)}> Update Config</button>
+                            </div>
                             <div id="chart-container" className="min-h-12 p-2 border-solid border-cyan-200">
                                 <TAMChart chartData={chartData} />
                             </div>
