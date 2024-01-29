@@ -10,10 +10,12 @@ export const Layout = (props: LayoutProps) => {
     <div className="layout">
       <Sidebar />
       <main className="
-            mt-14
-            md:mt-10 md:mx-20
-            lg:mt-10 lg:mx-40
-            xl:mt-10 xl:mx-60 ">
+            min-w-fit
+            sm:min-w-0
+            mt-15
+            md:mt-10
+            lg:mt-10 lg:mx-20
+            xl:mt-10 xl:mx-40 ">
         {props.children}
       </main>
     </div>
