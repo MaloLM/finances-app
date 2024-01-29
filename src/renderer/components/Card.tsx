@@ -9,7 +9,7 @@ interface CardProps {
 export const Card = (props: CardProps) => {
   return (
     <div className={"flex flex-col bg-lightNobleBlack gap-5 p-5 rounded-xl " + props.className}>
-      {props.title && <h1 className="text-3xl font-serif">{props.title}</h1>}
+      {props.title && <h1 className="text-3xl font-semibold ">{props.title}</h1>}
       <div>
         {props.children}
       </div>

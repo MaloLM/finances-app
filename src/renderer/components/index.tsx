@@ -1,4 +1,4 @@
-export * from "./TAMChart"
+export * from "./charts/TAMChart"
 export * from "./form/TAMForm"
 export * from "./form/NumberField"
 export * from "./form/TextField"
