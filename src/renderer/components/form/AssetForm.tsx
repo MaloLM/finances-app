@@ -12,12 +12,12 @@ interface AssetFormProps {
 
 export const AssetForm = (props: AssetFormProps) => {
     return (
-        <div className={"flex items-center rounded-xl border border-softWhite border-opacity-30 hover:border-opacity-50 py-1 px-3 relative max-w-fit overflow-hidden pr-10 " + props.className}>
-            <NumberField  className="max-w-14 mx-2 font-bold"  name={`assets[${props.assetIndex}].quantityOwned`} placeholder="Quantity Owned"/>
-            <div className="flex flex-col">
+        <div className={"flex items-center justify-between rounded-xl border border-softWhite border-opacity-30 hover:border-opacity-50 py-1 pl-2 relative  pr-8 " + props.className}>
+            <NumberField  className=" border-b-0 mx-2 font-bold "  name={`assets[${props.assetIndex}].quantityOwned`} placeholder="Quantity Owned" InMiddle />
+            <div className="flex flex-col w-full">
                 <div className="flex ">
                     <TextField name={`assets[${props.assetIndex}].assetName`} placeholder="Asset Name" />
-                    <NumberField name={`assets[${props.assetIndex}].unitPrice`} placeholder="Unit Price" />
+                    <NumberField name={`assets[${props.assetIndex}].unitPrice`} placeholder="Unit Price" currency="€" />
                 </div>
                 <div className="flex">
                     <SliderField name={`assets[${props.assetIndex}].targetPercent`} />
