@@ -9,7 +9,7 @@ import { Button } from "../Button";
 import { DonutChart } from "../charts/DonutChart";
 import { TAMChart } from "../charts/TAMChart";
 import { BarChart4, Plus, RotateCcw, Save } from "lucide-react";
-import { chartDataMock } from "../../utils/types";
+import { chartDataMock } from "../../utils/constants";
 // import chartExample from "../../assets/svg/chart.svg";
 
 interface TAMFormProps {

@@ -19,7 +19,9 @@ export const DonutChart = ({ assets }: DonutChartProps) => {
         setTotalPurcentage(total);
         if (total > 100) {
             setBorderColor("#FF0000");
-        }else{
+        } else if (total === 100) {
+            setBorderColor("#D4AF37");
+        } else {
             setBorderColor("#262626");
         }
     }, [assets]);
@@ -31,18 +33,19 @@ export const DonutChart = ({ assets }: DonutChartProps) => {
                 label: 'Asset Allocation',
                 data: assets.map(asset => asset.targetPercent),
                 backgroundColor: [
-                    '#0E4D92', // Deep Sapphire
-                    '#EE6C4D', // Burnt Sienna
-                    '#8DAA91', // Sage Green
-                    '#DDBDD5', // Dusky Pink
-                    '#B09885', // Warm Taupe
-                    '#487A7B', // Teal
-                    '#708238', // Olive Green
-                    '#AB4E52', // Crimson
+                    '#eccba0',
+                    '#a69151',
+                    '#ad8851',
+                    '#241935',
+                    '#8c9364',
+                    '#cfc1b2',
+                    '#947c5c',
+                    '#4c3c24',
+                    '#d4c9b3',
                 ],
                 hoverOffset: 4,
                 borderColor: borderColor, // softWhite color for the border
-                borderWidth: 0.5, // Set the width of the border
+                borderWidth: 2, // Set the width of the border
 
             }
         ]
@@ -61,7 +64,7 @@ export const DonutChart = ({ assets }: DonutChartProps) => {
     return (
         <div className='flex items-center justify-center relative'>
             <Doughnut data={data} options={options} />
-            <span className={`absolute text-4xl font-bold ${totalPurcentage>100? "text-red-600" : " "}`}>{totalPurcentage}%</span>
+            <span className={`absolute text-4xl font-bold ${totalPurcentage > 100 ? "text-red-500" : totalPurcentage === 100 ? "text-nobleGold" : ""}`}>{totalPurcentage}%</span>
         </div>
     );
 };
