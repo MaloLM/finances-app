@@ -12,8 +12,7 @@ export const Layout = (props: LayoutProps) => {
       <main className="
             min-w-fit
             sm:min-w-0
-            mt-15
-            md:mt-10
+            mt-10
             lg:mt-10 lg:mx-20
             xl:mt-10 xl:mx-40 ">
         {props.children}
