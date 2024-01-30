@@ -10,4 +10,10 @@ declare global {
     };
   }
 }
+
+declare module "*.png";
+declare module "chart.svg";
+declare module "*.jpeg";
+declare module "*.jpg";
+
 export { };

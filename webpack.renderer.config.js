@@ -8,6 +8,10 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.(png|jpe?g|gif|svg)$/i,
+        type: 'asset/resource',
+      },
+      {
         test: /\.tsx?$/,
         loader: 'ts-loader',
         options: {
