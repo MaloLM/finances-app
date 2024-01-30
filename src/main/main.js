@@ -17,13 +17,13 @@ const {
 // - load the file : 
 // - load the preload file  : 
 // - change the getDataFilePath in dataFiles.js : 
-// - change the api/electron.js in renderer : OK
+// - change the api/electron.js in renderer : 
 // - remove full screen mode [optional]
 function createWindow() {
   const win = new BrowserWindow({
     width: 850,
     height: 600,
-    fullscreen: true, 
+    minWidth: 640,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
