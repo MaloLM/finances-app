@@ -22,8 +22,9 @@ const {
 function createWindow() {
   const win = new BrowserWindow({
     width: 850,
-    height: 600,
+    height: 720,
     minWidth: 640,
+    minHeight: 720,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
@@ -76,7 +77,7 @@ app.whenReady().then(createWindow);
  * @param {Object} data - The data received from the renderer process.
  */
 ipcMain.on("write-data-channel", (event, data) => {
-  writeJsonFile("tam_form_data.json", data);
+  // writeJsonFile("tam_form_data.json", data);
 
   let res = run_tam_optimization(data);
 
@@ -98,10 +99,6 @@ _data.json'.
 ipcMain.on("update-tam-config", (event, data) => {
   writeJsonFile("tam_form_data.json", data);
 });
-ipcMain.on("update-tam-config", (event, data) => {
-  writeJsonFile("tam_form_data.json", data);
-});
-
 /**
  * Listens for the 'request-data-channel' event on ipcMain.
  * This event is triggered to read data from a JSON file and send it back to the renderer process.
