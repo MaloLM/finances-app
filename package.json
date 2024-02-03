@@ -1,5 +1,5 @@
 {
-  "name": "fin-app",
+  "name": "finances",
   "version": "1.0.0",
   "description": "a local electron app for simple financial use cases",
   "main": "./src/main/main.js",

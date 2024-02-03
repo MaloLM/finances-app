@@ -36,6 +36,8 @@ module.exports = {
         nobleBlack: '#0B0B0B',
         lightNobleBlack: '#1c1c1c',
         softWhite: '#F8F8F8',
+        successGreen: '#008f00',
+        error: '#d10000',
         sidebarGray: '#333333',
         nobleGold: '#D4AF37',
       },
