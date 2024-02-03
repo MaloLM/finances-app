@@ -1,12 +1,12 @@
 import { ErrorMessage, Field } from "formik";
-import React from "react";
+import React, { useEffect } from "react";
 
 interface NumberFieldProps {
     name?: string;
-    placeholder?: string;
+    tooltip?: string;
     className?: string;
     currency?: string;
-    InMiddle?: boolean;
+    displayError?: boolean;
     inputElement?: React.ComponentType<React.InputHTMLAttributes<HTMLInputElement>>;
 }
 
@@ -19,22 +19,24 @@ export const NumberField = (props: NumberFieldProps) => {
                 form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
                 meta,
             }) => (
-                <div className={`relative ${props.currency ? " pr-8 " : ""} `}>
-                    {props.inputElement ? <props.inputElement placeholder={props.placeholder} {...field} /> :
+                <div className={`relative flex items-center ${props.currency ? " pr-8 " : ""} `}>
+                    {props.inputElement ? <props.inputElement {...field} /> :
                         <>
-                            <input type="number" placeholder={props.placeholder} {...field}
-                                className={`max-w-11 p-1 rounded-none text-softWhite
-                                border-0 border-b border-lightNobleBlack  bg-lightNobleBlack 
+                            <input type="number"  {...field}
+                                title={props.tooltip}
+                                className={`max-w-14 p-1 rounded-none text-softWhite text-center
+                                 border-b   bg-lightNobleBlack 
+                                focus:outline-none focus:ring-0
+                                border-0
                                 hover:brightness-125 hover:border-nobleGold
                                 relative 
-                                ${props.InMiddle ? "text-center" : ""}
-                                ${meta.touched && meta.error ? " border-red-700 " : " "}` + props.className} >
+                                ${meta.touched && meta.error ? " border-error " : " border-lightNobleBlack "}` + props.className} >
                             </input>
                             {props.currency &&
-                                <span className={`absolute bg-lightNobleBlack opacity-50 right-5 flex items-center text-softWhite ${meta.touched && meta.error ? "top-1" : "top-1"}`}>{props.currency}</span>
+                                <span className={` opacity-50 flex items-center text-softWhite`}>{props.currency}</span>
                             }
-                            {meta.touched && meta.error && (
-                                <ErrorMessage name={props.name || "field"} component="div" className="text-red-700 text-xs" />
+                            {props.displayError && meta.touched && meta.error && (
+                                <ErrorMessage name={props.name || "field"} component="div" className="text-error text-xs" />
                             )}
                         </>
                     }
