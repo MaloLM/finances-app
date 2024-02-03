@@ -18,14 +18,14 @@ export const Sidebar = () => {
     return (
         <>
             <button onClick={toggleSidebar} aria-controls="default-sidebar" type="button"
-                className={`fixed top-2 z-50 transition-transform inline-flex items-center p-2 mt-2 
+                className={`fixed top-2 z-50 transition-transform duration-500 inline-flex items-center p-2 mt-2 
             bg-nobleBlack text-sm text-gray-500  hover:bg-lightNobleBlack hover:border-nobleGold focus:outline-none  border-lightNobleBlack
             ${isSidebarOpen ? "translate-x-64 xl:translate-x-72 rounded-r-lg rounded-l-none border-l-0" : "ms-3 rounded-lg "} `}
             >
                 <span className="sr-only">{isSidebarOpen ? 'Close sidebar' : 'Open sidebar'}</span>
                 <SidebarButtonIcon className={isSidebarOpen ? '' : "text-nobleGold"} />
             </button>
-            <aside id="default-sidebar" className={`fixed top-0 left-0 z-40 w-64 xl:w-72 h-screen transition-transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} `} aria-label="Sidebar">
+            <aside id="default-sidebar" className={`fixed top-0 left-0 z-40 w-64 xl:w-72 h-screen transition-transform duration-500 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} `} aria-label="Sidebar">
                 <div className="h-full px-3 py-4 overflow-y-auto bg-nobleBlack  border-r border-lightNobleBlack">
                     <ul className="space-y-2 font-medium">
                         <li>
