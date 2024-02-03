@@ -28,10 +28,31 @@ export const TAMChart = (props: { chartData: ChartData }) => {
                             },
                         },
                     },
+                    legend: {
+                        labels: {
+                            color: 'white', // Color for legends (can be rgba or hex)
+                        },
+                    },
                 },
                 scales: {
-                    x: { stacked: true },
-                    y: { stacked: true },
+                    x: {
+                        stacked: true,
+                        grid: {
+                            color: '#0B0B0B', // Color for x-axis lines (can be rgba or hex)
+                        },
+                        ticks: {
+                            color: '#F8F8F8', // Color for y-axis legends (can be rgba or hex)
+                        }
+                    },
+                    y: {
+                        stacked: true,
+                        grid: {
+                            color: '#0B0B0B', // Color for x-axis lines (can be rgba or hex)
+                        },
+                        ticks: {
+                            color: '#F8F8F8', // Color for y-axis legends (can be rgba or hex)
+                        }
+                    },
                 },
             }} />
     )

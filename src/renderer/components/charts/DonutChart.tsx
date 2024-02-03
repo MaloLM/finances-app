@@ -7,10 +7,11 @@ import { Asset } from '../../utils/types';
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 interface DonutChartProps {
+    className?: string;
     assets: Asset[];
 }
 
-export const DonutChart = ({ assets }: DonutChartProps) => {
+export const DonutChart = ({ assets, className }: DonutChartProps) => {
     const [borderColor, setBorderColor] = React.useState<string>("#262626");
     const [totalPurcentage, setTotalPurcentage] = React.useState<number>(0);
 
@@ -18,7 +19,7 @@ export const DonutChart = ({ assets }: DonutChartProps) => {
         const total = assets.reduce((acc, asset) => acc + asset.targetPercent, 0);
         setTotalPurcentage(total);
         if (total > 100) {
-            setBorderColor("#FF0000");
+            setBorderColor("#d10000"); // red color for the border
         } else if (total === 100) {
             setBorderColor("#D4AF37");
         } else {
@@ -62,9 +63,9 @@ export const DonutChart = ({ assets }: DonutChartProps) => {
 
 
     return (
-        <div className='flex items-center justify-center relative'>
+        <div className={'flex items-center justify-center relative '+ className}>
             <Doughnut data={data} options={options} />
-            <span className={`absolute text-4xl font-bold ${totalPurcentage > 100 ? "text-red-500" : totalPurcentage === 100 ? "text-nobleGold" : ""}`}>{totalPurcentage}%</span>
+            <span className={`absolute text-4xl font-bold ${totalPurcentage > 100 ? "text-error" : totalPurcentage === 100 ? "text-nobleGold" : ""}`}>{totalPurcentage > 999 ||totalPurcentage < 0.1? "???" : totalPurcentage+"%"}</span>
         </div>
     );
 };

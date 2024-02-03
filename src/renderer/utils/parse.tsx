@@ -52,7 +52,7 @@ export function convertToChartData(tamResponse: TAMFormResponse): ChartData {
       {
         label: 'Next Buy',
         data: quantitiesToBuy,
-        backgroundColor: '#3e9b39',
+        backgroundColor: '#008f00',
         order: 2,
       },
     ],
