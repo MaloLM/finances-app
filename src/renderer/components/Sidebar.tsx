@@ -18,7 +18,7 @@ export const Sidebar = () => {
     return (
         <>
             <button onClick={toggleSidebar} aria-controls="default-sidebar" type="button"
-                className={`fixed top-2 z-50 transition-transform duration-500 inline-flex items-center p-2 mt-2 
+                className={`fixed top-2 z-50 transition-transform duration-500 inline-flex items-center p-2 mt-2 border
             bg-nobleBlack text-sm text-gray-500  hover:bg-lightNobleBlack hover:border-nobleGold focus:outline-none  border-lightNobleBlack
             ${isSidebarOpen ? "translate-x-64 xl:translate-x-72 rounded-r-lg rounded-l-none border-l-0" : "ms-3 rounded-lg "} `}
             >

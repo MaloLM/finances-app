@@ -13,7 +13,7 @@ export const Button = (props: ButtonProps) => {
     return (
         <button disabled={props.disabled}
             type={props.type ? props.type : "button"}
-            className={` rounded-full px-2 
+            className={` rounded-full px-2 border
         ${props.filled
                     ? "border-nobleGold text-lightNobleBlack bg-nobleGold hover:bg-nobleGold hover:brightness-110 transition-transform duration-700 hover:scale-105 "
                     : ` border-nobleGold text-nobleGold  
