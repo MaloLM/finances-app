@@ -19,22 +19,24 @@ export const NumberField = (props: NumberFieldProps) => {
                 form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
                 meta,
             }) => (
-                <div className={`relative flex items-center ${props.currency ? " pr-8 " : ""} `}>
+                <div className={`flex flex-col`}>
                     {props.inputElement ? <props.inputElement {...field} /> :
                         <>
-                            <input type="number"  {...field}
-                                title={props.tooltip}
-                                className={`max-w-14 p-1 rounded-none text-softWhite text-center
+                            <div className="flex items-center">
+                                <input type="number"  {...field}
+                                    title={props.tooltip}
+                                    className={`max-w-14 p-1 rounded-none text-softWhite text-center
                                  border-b   bg-lightNobleBlack 
                                 focus:outline-none focus:ring-0
                                 border-0
                                 hover:brightness-125 hover:border-nobleGold
                                 relative 
                                 ${meta.touched && meta.error ? " border-error " : " border-lightNobleBlack "}` + props.className} >
-                            </input>
-                            {props.currency &&
-                                <span className={` opacity-50 flex items-center text-softWhite`}>{props.currency}</span>
-                            }
+                                </input>
+                                {props.currency &&
+                                    <span className={` opacity-50 flex items-center text-softWhite`}>{props.currency}</span>
+                                }
+                            </div>
                             {props.displayError && meta.touched && meta.error && (
                                 <ErrorMessage name={props.name || "field"} component="div" className="text-error text-xs" />
                             )}
