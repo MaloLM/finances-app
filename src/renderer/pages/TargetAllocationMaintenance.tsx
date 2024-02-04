@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import "../styles/TargetAllocationMaintenance.css";
 import { ChartData, parseToTamResponse, convertToChartData, TamFormData, TAMFormResponse } from "../utils";
 import { useIpcRenderer } from "../api/electron";
 import { Loading, TAMForm } from "../components";
+import toast from 'react-hot-toast';
 
 export const TargetAllocationMaintenance = (props: { Data: TamFormData }) => {
     const [chartData, setChartData] = useState<ChartData>({} as ChartData);
@@ -25,6 +25,7 @@ export const TargetAllocationMaintenance = (props: { Data: TamFormData }) => {
             budget: parseFloat(budget),
         };
         saveFormData(formData);
+        toast.success("Configuration saved");
     }
 
     const UpdateChart = () => {
@@ -50,7 +51,7 @@ export const TargetAllocationMaintenance = (props: { Data: TamFormData }) => {
 
     const handleResponse = (event, responseData) => {
         if (event.error) {
-            console.error(event.error);
+            toast.error(event.error);
         } else {
             let result = parseToTamResponse(responseData.message);
             setNewAssetValues(result);
