@@ -1,14 +1,15 @@
 import { Form, Formik } from "formik";
-import React from "react";
-import { Asset, TAMFormResponse, TAMFormSchema, ChartData } from "../../utils";
-import { NumberField } from "./NumberField";
+import React, { useEffect } from "react";
+import { Asset, TAMFormResponse, TAMFormSchema, ChartData } from "../utils";
+import { NumberField } from "./form/NumberField";
 import { AssetForm } from "./AssetForm";
-import { Card } from "../Card";
-import { SelectorField } from "./SelectorField";
-import { Button } from "../Button";
-import { TAMChart, DonutChart } from "../charts";
-import { AlertCircle, Plus, RotateCcw, Save } from "lucide-react";
-import { chartDataMock, CURRENCIES } from "../../utils/constants";
+import { Card } from "./Card";
+import { SelectorField } from "./form/SelectorField";
+import { Button } from "./Button";
+import { TAMChart, DonutChart } from "./charts";
+import { AlertCircle, Divide, Plus, RotateCcw, Save, X } from "lucide-react";
+import { chartDataMock, CURRENCIES } from "../utils/constants";
+import toast from "react-hot-toast";
 
 interface TAMFormProps {
     assets: Asset[];
@@ -22,38 +23,48 @@ interface TAMFormProps {
 }
 
 export const TAMForm = (props: TAMFormProps) => {
+    const formRef = React.useRef<HTMLDivElement>(null);
+
+    const scrollUp = () => {
+        if (!formRef.current) return
+        formRef.current.scrollIntoView({
+            block: "start", // or "center", "end", or "nearest"
+            inline: "nearest" // or "start", "center", or "end"
+        });
+    }
+
+
     const updateFormValues = (setFieldValue) => {
         props.result.assets.forEach((asset, index) => {
             setFieldValue(`assets[${index}].quantityOwned`, asset.newQuantity);
         });
     };
 
-    const errorMessage = (error) => {
-        let totalPercentError = typeof error === 'string' ? error : "";
-        let unitPriceError, nameError, quantityError, targetPercentError = ""
-        if (typeof error === 'object' && error.length > 0) {
-            error.forEach((assetError) => {
-                if (assetError && assetError.unitPrice) {
-                    unitPriceError = assetError.unitPrice;
-                }
-                if (assetError && assetError.assetName) {
-                    nameError = assetError.assetName;
-                }
-                if (assetError && assetError.quantityOwned) {
-                    quantityError = assetError.quantityOwned;
-                }
-                if (assetError && assetError.targetPercent) {
-                    targetPercentError = assetError.targetPercent;
-                }
-            });
+    const processErrors = (assetErrors) => {
+        if (typeof assetErrors === 'string') {
+            return [assetErrors];
         }
+
+        const errorMessagesSet = new Set<string>();
+        assetErrors.forEach((asset) => {
+            asset && Object.values(asset).forEach((errorMessage) => {
+                if (errorMessage && typeof errorMessage == 'string')
+                    errorMessagesSet.add(errorMessage);
+            });
+        });
+
+        return Array.from(errorMessagesSet);
+    };
+
+    const ErrorMessages = ({ errorMessages }) => {
         return (
-            <div className="flex flex-col">
-                {unitPriceError && <p className="text-error text-xs">{unitPriceError}</p>}
-                {nameError && <p className="text-error text-xs">{nameError}</p>}
-                {quantityError && <p className="text-error text-xs">{quantityError}</p>}
-                {totalPercentError && <p className="text-error text-xs">{totalPercentError}</p>}
-                {targetPercentError && <p className="text-error text-xs">{targetPercentError}</p>}
+            <div className="flex border border-error bg-lightNobleBlack rounded-lg p-3 text-error ">
+                <AlertCircle className="mr-2" />
+                <div className="flex flex-col">
+                    {errorMessages.map((message, index) => (
+                        <p key={index} className="text-error">{message}</p>
+                    ))}
+                </div>
             </div>
         );
     }
@@ -62,29 +73,26 @@ export const TAMForm = (props: TAMFormProps) => {
         <Formik
             initialValues={{ assets: props.assets, budget: props.budget, currency: props.currency }}
             validationSchema={TAMFormSchema}
-            onSubmit={(values, { setSubmitting }) => {
+            onSubmit={(values) => {
+                console.log(values);
                 const formData = {
                     assets: values.assets,
                     currency: values.currency,
                     budget: values.budget
                 };
                 props.onSubmit(formData);
-                setSubmitting(false);
             }}
         >
-            {({ values, errors, handleSubmit, isSubmitting, setFieldValue }) => {
+            {({ values, errors, handleSubmit, isSubmitting, setFieldValue, isValidating, isValid }) => {
                 return (
                     <Form onSubmit={handleSubmit} className="flex flex-col gap-5">
                         <Card className=" relative " title="Current Allocation" titleButton={
-                            () => (
-                                <Button className=" " onClick={() => props.saveConfig(values)}><Save size={20} /></Button>
-                            )
-
+                            <Button onClick={() => props.saveConfig(values)}> <Save size={20} /></Button>
                         }>
-                            <div className="flex flex-col gap-3 pb-6 md:pb-0">
-                                <div className="flex flex-col-reverse gap-3 md:flex-row">
+                            <div ref={formRef} className="flex flex-col gap-3">
+                                <div className={`flex flex-col-reverse gap-3 md:flex-row ${errors.assets ? "pb-20    " : ""}  md:pb-0 min-h-110`}>
                                     <div className="flex flex-col w-full">
-                                        <div className="flex flex-col gap-1 w-full md:min-h-80  max-h-110 overflow-y-scroll pr-4 py-1">
+                                        <div className="flex flex-col gap-1 w-full md:min-h-24  max-h-110 overflow-y-scroll pr-4 py-1">
                                             {values.assets.map((asset, index) => (
                                                 <AssetForm currency={CURRENCIES.get(values.currency)} key={index} assetIndex={index} error={(errors.assets && errors.assets[index]) !== undefined && typeof (errors.assets && errors.assets[index]) !== "string"} onDelete={() => {
                                                     const newAssets = values.assets.filter((_, idx) => idx !== index);
@@ -103,15 +111,12 @@ export const TAMForm = (props: TAMFormProps) => {
                                             </Button>
                                         </div>
                                     </div>
-                                    <div className="flex w-full items-center justify-center relative">
-                                        <DonutChart className=" md:mb-40" assets={values.assets} />
+                                    <div className="flex w-full items-start justify-center">
+                                        <DonutChart assets={values.assets} />
                                     </div>
                                     {errors.assets &&
                                         <div className="flex justify-center absolute bottom-3 right-0 left-0 md:bottom-24 md:left-1/2 md:mr-8 ">
-                                            <div className="flex items-center border border-error rounded-lg p-3 text-error">
-                                                <AlertCircle className="mr-2" />
-                                                {errorMessage(errors.assets)}
-                                            </div>
+                                            <ErrorMessages errorMessages={processErrors(errors.assets)} />
                                         </div>
                                     }
                                 </div>
@@ -128,7 +133,7 @@ export const TAMForm = (props: TAMFormProps) => {
                                 {props.result.assets &&
                                     <>
                                         <Button filled className="ml-3 py-1 bg-lightNobleBlack" type="submit" disabled={isSubmitting}><RotateCcw size={20} strokeWidth={2.5} /></Button>
-                                        <Button className="ml-3 bg-lightNobleBlack py-1 text-sm md:text-base" onClick={() => { props.updateChart(); updateFormValues(setFieldValue) }}>Update Config</Button>
+                                        <Button className="ml-3 bg-lightNobleBlack py-1 text-sm md:text-base" onClick={() => { props.updateChart(); updateFormValues(setFieldValue); toast.success("Configuration updated!") }}>Update Config</Button>
                                     </>
                                 }
                             </div>
@@ -142,7 +147,7 @@ export const TAMForm = (props: TAMFormProps) => {
                                         <TAMChart chartData={chartDataMock} />
                                     </div>
                                     <div className="flex items-center justify-center absolute w-full h-full top-0">
-                                        <Button filled className=" bg-lightNobleBlack w-1/4 h-20 text-2xl" type="submit" disabled={isSubmitting}>Compute</Button>
+                                        <Button filled onClick={() => { if (!isValid) scrollUp() }} className={` bg-lightNobleBlack w-1/4 h-20 text-2xl ${errors.assets ? "bg-error" : ""} `} type="submit" disabled={isSubmitting}>Compute</Button>
                                     </div>
                                 </div>
                             }

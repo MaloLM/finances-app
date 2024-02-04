@@ -1,7 +1,7 @@
 import React from "react";
-import { TextField } from "./TextField";
-import { NumberField } from "./NumberField";
-import SliderField from "./SliderField";
+import { TextField } from "./form/TextField";
+import { NumberField } from "./form/NumberField";
+import SliderField from "./form/SliderField";
 import { X } from "lucide-react";
 
 interface AssetFormProps {
@@ -26,8 +26,8 @@ export const AssetForm = (props: AssetFormProps) => {
                 </div>
             </div>
 
-            <button className="absolute opacity-30 hover:opacity-100 right-1 top-0 border-0 hover:bg-error m-1 p-0.5" type="button" onClick={props.onDelete}>
-                <X className="text-white" size={"20"} />
+            <button className="absolute  right-0 top-0 border-0  m-1 p-0.5" type="button" onClick={props.onDelete}>
+                <X className=" opacity-30 hover:text-error hover:opacity-100" size={"20"} />
             </button>
         </div>
     );
