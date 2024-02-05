@@ -1,5 +1,5 @@
 import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
+import React from "react";
 import { Asset, TAMFormResponse, TAMFormSchema, ChartData } from "../utils";
 import { NumberField } from "./form/NumberField";
 import { AssetForm } from "./AssetForm";
@@ -7,9 +7,10 @@ import { Card } from "./Card";
 import { SelectorField } from "./form/SelectorField";
 import { Button } from "./Button";
 import { TAMChart, DonutChart } from "./charts";
-import { AlertCircle, Divide, Plus, RotateCcw, Save, X } from "lucide-react";
+import { AlertCircle, Plus, RotateCcw, Save, X } from "lucide-react";
 import { chartDataMock, CURRENCIES } from "../utils/constants";
 import toast from "react-hot-toast";
+import { HelpButton } from "./HelpButton";
 
 interface TAMFormProps {
     assets: Asset[];
@@ -23,16 +24,16 @@ interface TAMFormProps {
 }
 
 export const TAMForm = (props: TAMFormProps) => {
+    const MAX_ASSETS = 30;
     const formRef = React.useRef<HTMLDivElement>(null);
+    const lastAssetRef = React.useRef<HTMLDivElement>(null);
 
     const scrollUp = () => {
         if (!formRef.current) return
         formRef.current.scrollIntoView({
-            block: "start", // or "center", "end", or "nearest"
-            inline: "nearest" // or "start", "center", or "end"
+            block: "start",
         });
     }
-
 
     const updateFormValues = (setFieldValue) => {
         props.result.assets.forEach((asset, index) => {
@@ -58,7 +59,7 @@ export const TAMForm = (props: TAMFormProps) => {
 
     const ErrorMessages = ({ errorMessages }) => {
         return (
-            <div className="flex border border-error bg-lightNobleBlack rounded-lg p-3 text-error ">
+            <div className="flex border border-error bg-transparent rounded-lg p-3 text-error ">
                 <AlertCircle className="mr-2" />
                 <div className="flex flex-col">
                     {errorMessages.map((message, index) => (
@@ -69,12 +70,29 @@ export const TAMForm = (props: TAMFormProps) => {
         );
     }
 
+    const AddAsset = (setFieldValue, values) => {
+        if (values.assets.length >= MAX_ASSETS) {
+            toast.error("Maximum number of assets reached");
+            return;
+        };
+        setFieldValue('assets', [...values.assets, { assetName: "Asset Name", unitPrice: 1, quantityOwned: 0, targetPercent: 0 }])        
+        toast.success("New asset created");
+        // sleep for 100ms to wait for the new asset to be rendered
+        setTimeout(() => {
+            if (!lastAssetRef.current) return
+            lastAssetRef.current.scrollIntoView({
+                block: "nearest",
+                behavior: "auto"
+            });
+        }, 100);
+
+    }
+
     return (
         <Formik
             initialValues={{ assets: props.assets, budget: props.budget, currency: props.currency }}
             validationSchema={TAMFormSchema}
             onSubmit={(values) => {
-                console.log(values);
                 const formData = {
                     assets: values.assets,
                     currency: values.currency,
@@ -94,10 +112,12 @@ export const TAMForm = (props: TAMFormProps) => {
                                     <div className="flex flex-col w-full">
                                         <div className="flex flex-col gap-1 w-full md:min-h-24  max-h-110 overflow-y-scroll pr-4 py-1">
                                             {values.assets.map((asset, index) => (
-                                                <AssetForm currency={CURRENCIES.get(values.currency)} key={index} assetIndex={index} error={(errors.assets && errors.assets[index]) !== undefined && typeof (errors.assets && errors.assets[index]) !== "string"} onDelete={() => {
-                                                    const newAssets = values.assets.filter((_, idx) => idx !== index);
-                                                    setFieldValue('assets', newAssets);
-                                                }} />
+                                                <div ref={index === values.assets.length - 1 ? lastAssetRef : null} key={index}>
+                                                    <AssetForm currency={CURRENCIES.get(values.currency)} key={index} assetIndex={index} error={(errors.assets && errors.assets[index]) !== undefined && typeof (errors.assets && errors.assets[index]) !== "string"} onDelete={() => {
+                                                        const newAssets = values.assets.filter((_, idx) => idx !== index);
+                                                        setFieldValue('assets', newAssets);
+                                                    }} />
+                                                </div>
                                             ))}
                                             {values.assets.length === 0 &&
                                                 <div className="flex justify-center items-center h-20">
@@ -106,7 +126,7 @@ export const TAMForm = (props: TAMFormProps) => {
                                             }
                                         </div>
                                         <div className="flex justify-between py-2">
-                                            <Button filled className="flex items-center pr-4 w-fit rounded-full" onClick={() => setFieldValue('assets', [...values.assets, { assetName: "Asset Name", unitPrice: 1, quantityOwned: 0, targetPercent: 0 }])}>
+                                            <Button filled className="flex items-center pr-4 w-fit rounded-full" onClick={() => AddAsset(setFieldValue, values)}>
                                                 <Plus size={20} />Asset
                                             </Button>
                                         </div>
