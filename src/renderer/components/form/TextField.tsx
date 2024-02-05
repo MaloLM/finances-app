@@ -21,8 +21,8 @@ export const TextField = (props: TextFieldProps) => {
                     <input className={`rounded-none border-0 border-b hover:brightness-125 
                      hover:border-nobleGold 
                     focus:outline-none focus:ring-0
-                    text-softWhite p-1 bg-lightNobleBlack
-                    ${meta.touched && meta.error ? " border-error " : " border-lightNobleBlack "} 
+                    text-softWhite p-1 bg-transparent
+                    ${meta.touched && meta.error ? " border-error " : " border-transparent "} 
                     ${props.className}`}
                         type="text" title={props.tooltip}  {...field}
                     />

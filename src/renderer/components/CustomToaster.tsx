@@ -9,8 +9,8 @@ export const CustomToaster = () => {
             reverseOrder={false}
             gutter={8}
             toastOptions={{
-                duration: 5000, // Infinity
-                className: 'bg-lightNobleBlack border border-nobleGold text-softWhite',
+                duration: 5000,
+                className: 'bg-nobleBlack  border border-nobleGold text-softWhite',
             }}
         />
     );

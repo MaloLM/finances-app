@@ -38,7 +38,7 @@ export const TAMChart = (props: { chartData: ChartData }) => {
                     x: {
                         stacked: true,
                         grid: {
-                            color: '#0B0B0B', // Color for x-axis lines (can be rgba or hex)
+                            color: '#0B0B0B', // Color for x-axis lines (can be rgba or hex) #1c1c1c
                         },
                         ticks: {
                             color: '#F8F8F8', // Color for y-axis legends (can be rgba or hex)
@@ -47,7 +47,7 @@ export const TAMChart = (props: { chartData: ChartData }) => {
                     y: {
                         stacked: true,
                         grid: {
-                            color: '#0B0B0B', // Color for x-axis lines (can be rgba or hex)
+                            color: '#0B0B0B', // Color for x-axis lines (can be rgba or hex) #1c1c1c
                         },
                         ticks: {
                             color: '#F8F8F8', // Color for y-axis legends (can be rgba or hex)
