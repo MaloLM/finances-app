@@ -14,7 +14,12 @@ interface AssetFormProps {
 
 export const AssetForm = (props: AssetFormProps) => {
     return (
-        <div className={`flex items-center justify-between rounded-xl border  py-2 pb-2 pl-2 relative  pr-8 transition-transform   ${props.error ? "border-error border-opacity-80 hover:border-opacity-100 " : "border-softWhite  border-opacity-30 hover:border-opacity-50"} ${props.className}`}>
+        <div className={`flex shadow-xl items-center justify-between rounded-lg border  
+        py-2 pb-2 pl-2 relative  pr-8 transition-all duration-700 ease-in-out
+        ${props.error ? "border-error border-opacity-100" 
+        : "border-nobleBlack  border-opacity-100 scale-95 hover:scale-100"} 
+        
+        ${props.className}`}>
             <NumberField className="mx-2 font-bold " name={`assets[${props.assetIndex}].quantityOwned`} tooltip="Quantity Owned" />
             <div className="flex flex-col w-full">
                 <div className="flex ">

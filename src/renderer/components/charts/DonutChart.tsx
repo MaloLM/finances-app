@@ -21,9 +21,9 @@ export const DonutChart = ({ assets, className }: DonutChartProps) => {
         if (total > 100) {
             setBorderColor("#d10000"); // red color for the border
         } else if (total === 100) {
-            setBorderColor("#D4AF37");
+            setBorderColor("#d4b85b");
         } else {
-            setBorderColor("#262626");
+            setBorderColor("#131313");
         }
     }, [assets]);
 
@@ -57,6 +57,13 @@ export const DonutChart = ({ assets, className }: DonutChartProps) => {
             legend: {
                 position: 'bottom' as const,
                 display: false,
+            },
+            tooltip: {
+                callbacks: {
+                    label: function (context) {
+                        return ` ${context.raw}%`;
+                    },
+                },
             },
         },
     };
