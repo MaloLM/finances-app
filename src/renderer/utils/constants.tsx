@@ -15,7 +15,7 @@ export const chartDataMock: ChartData = {
         {
             label: 'Target',
             data: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
-            backgroundColor: '#008f00',
+            backgroundColor: '#998d05',
             order: 2
         }
     ]

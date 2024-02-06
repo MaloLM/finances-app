@@ -46,13 +46,13 @@ export function convertToChartData(tamResponse: TAMFormResponse): ChartData {
       {
         label: 'Current Volume',
         data: oldQuantities,
-        backgroundColor: '#D4AF37',
+        backgroundColor: '#d4b85b',
         order: 2,
       },
       {
         label: 'Next Buy',
         data: quantitiesToBuy,
-        backgroundColor: '#008f00',
+        backgroundColor: '#998d05',
         order: 2,
       },
     ],

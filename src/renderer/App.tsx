@@ -27,7 +27,7 @@ const App = () => {
   }, []);
 
   return (
-    <div className="App text-softWhite">
+    <div className="App flex flex-col font-sans text-softWhite bg-nobleBlack">
       <Router>
         <Layout>
           <Routes>
