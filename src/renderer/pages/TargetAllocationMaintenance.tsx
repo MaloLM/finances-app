@@ -1,82 +1,60 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
-import { ChartData, parseToTamResponse, convertToChartData, TamFormData, TAMFormResponse } from "../utils";
-import { useIpcRenderer } from "../api/electron";
-import { Loading, TAMForm } from "../components";
-import toast from 'react-hot-toast';
+import React, { useEffect, useState } from 'react'
+import { parseToTamResponse, TamFormResponse } from '../utils'
+import { useIpcRenderer } from '../api/electron'
+import { Loading, TamForm } from '../components'
+import toast from 'react-hot-toast'
+import { useAppContext } from '../context'
 
-export const TargetAllocationMaintenance = (props: { Data: TamFormData }) => {
-    const [chartData, setChartData] = useState<ChartData>({} as ChartData);
-    const [isLoading, setIsloading] = useState<boolean>(true);
-    const [newAssetValues, setNewAssetValues] = useState<TAMFormResponse>({} as TAMFormResponse);
-    const { sendWriteData, onWriteResponse, saveFormData } = useIpcRenderer();
+export const TargetAllocationMaintenance = () => {
+    const { tamData } = useAppContext()
+    const [isLoading, setIsloading] = useState<boolean>(true)
+    const [computeResult, setComputeResult] = useState<TamFormResponse>({} as TamFormResponse)
+    const { sendWriteData, onWriteResponse, saveFormData } = useIpcRenderer()
 
     useEffect(() => {
-        if (props.Data && props.Data.assets && props.Data.budget && props.Data.currency) {
-            setIsloading(false);
+        if (tamData && tamData.assets && tamData.budget && tamData.currency) {
+            setIsloading(false)
         }
-    }, [props.Data]);
+    }, [tamData])
 
     const saveConfig = (values) => {
-        const { assets, budget, currency } = values;
+        const { assets, budget, currency } = values
         const formData = {
             assets: assets,
             currency: currency,
             budget: parseFloat(budget),
-        };
-        saveFormData(formData);
-        toast.success("Configuration saved");
-    }
-
-    const UpdateChart = () => {
-        const newData: ChartData = { ...chartData };
-        newData.datasets = newData.datasets.map(dataset => {
-            if (dataset.label === 'Current Volume') {
-                let targetData = chartData.datasets.find(d => d.label === 'Next Buy')?.data || [];
-                let currentData = dataset.data.map((d, i) => d + targetData[i]);
-                return {
-                    ...dataset,
-                    data: currentData,
-                };
-            } else if (dataset.label === 'Next Buy') {
-                return {
-                    ...dataset,
-                    data: dataset.data.map(d => 0),
-                };
-            }
-            return dataset;
-        });
-        setChartData(newData);
+        }
+        saveFormData(formData)
+        toast.success('Configuration saved')
     }
 
     const handleResponse = (event, responseData) => {
+        console.log('on est laaaaa')
         if (event.error) {
-            toast.error(event.error);
+            toast.error(event.error)
         } else {
-            let result = parseToTamResponse(responseData.message);
-            setNewAssetValues(result);
-            setChartData(convertToChartData(result));
+            let result = parseToTamResponse(responseData.message)
+            setComputeResult(result)
         }
-    };
+    }
 
+    const handleSubmit = (formData) => {
+        sendWriteData(formData)
+        onWriteResponse(handleResponse)
+    }
 
     return (
-        <div className="flex flex-col gap-2 p-5 h-full">
-            {isLoading ? <Loading /> :
-                <TAMForm
-                    assets={props.Data.assets}
-                    budget={props.Data.budget}
-                    currency={props.Data.currency}
-                    onSubmit={(formData) => {
-                        sendWriteData(formData);
-                        onWriteResponse(handleResponse);
-                    }}
-                    result={newAssetValues}
-                    updateChart={UpdateChart}
+        <div className="flex h-full flex-col">
+            {isLoading ? (
+                <Loading />
+            ) : (
+                <TamForm
+                    tamData={tamData}
+                    onSubmit={handleSubmit}
+                    computeResult={computeResult}
                     saveConfig={saveConfig}
-                    chartData={chartData}
                 />
-            }
+            )}
         </div>
-    );
+    )
 }

@@ -11,9 +11,24 @@ declare global {
   }
 }
 
+declare module 'tailwindcss/tailwind-config' {
+  interface DefaultColors {
+    colors: {
+      nobleBlack: string;
+      nobleGold: string;
+      lightNobleBlack: string;
+      lightGray: string;
+      softWhite: string;
+      sidebar: string;
+      error: string;
+      succesGreen: string;
+    };
+  }
+}
+
 declare module "*.png";
 declare module "chart.svg";
 declare module "*.jpeg";
 declare module "*.jpg";
 
-export { };
+export {  };

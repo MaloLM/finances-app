@@ -1,46 +1,29 @@
-import React, { useEffect } from "react";
-import { useIpcRenderer } from "./api/electron";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { TargetAllocationMaintenance } from "./pages/TargetAllocationMaintenance";
-import { TamFormData, parseTamFormData } from "./utils";
-import { CustomToaster, Layout } from "./components";
-import { OtherFeature } from "./pages/OtherFeature";
-import { NotFoundComponent } from "./pages/NotFound";
-import toast from 'react-hot-toast';
+import React from 'react'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import { TargetAllocationMaintenance } from './pages/TargetAllocationMaintenance'
+import { CustomToaster, Layout } from './components'
+import { OtherFeature } from './pages/OtherFeature'
+import { NotFoundComponent } from './pages/NotFound'
+import { AppProvider } from './context'
 
 const App = () => {
-  const [data, setData] = React.useState<TamFormData>({} as TamFormData);
-  const { sendRequestData, onResponseData } = useIpcRenderer();
+    return (
+        <AppProvider>
+            <div className="flex h-full min-h-screen w-full flex-col bg-nobleBlack font-sans font-light text-softWhite">
+                <Router>
+                    <Layout>
+                        <Routes>
+                            <Route path="/" element={<TargetAllocationMaintenance />} />
+                            <Route path="/tam" element={<TargetAllocationMaintenance />} />
+                            <Route path="/other-feature" element={<OtherFeature />} />
+                            <Route path="*" element={<NotFoundComponent />} />
+                        </Routes>
+                        <CustomToaster />
+                    </Layout>
+                </Router>
+            </div>
+        </AppProvider>
+    )
+}
 
-  useEffect(() => {
-    const handleResponse = (event, responseData) => {
-      if (event.error) {
-        console.error(event.error);
-        toast.error(event.error);
-      } else {
-        setData(parseTamFormData(responseData));
-      }
-    };
-
-    onResponseData(handleResponse);
-    sendRequestData();
-  }, []);
-
-  return (
-    <div className="App flex flex-col font-sans text-softWhite bg-nobleBlack">
-      <Router>
-        <Layout>
-          <Routes>
-            <Route path="/" element={<TargetAllocationMaintenance Data={data} />} />
-            <Route path="/tam" element={<TargetAllocationMaintenance Data={data} />} />
-            <Route path="/other-feature" element={< OtherFeature />} />
-            <Route path="*" element={<NotFoundComponent />} />
-          </Routes>
-          <CustomToaster />
-        </Layout>
-      </Router>
-    </div>
-  );
-};
-
-export default App;
+export default App
