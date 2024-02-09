@@ -124,6 +124,7 @@ const scrollTo = (formRef) => {
     if (!formRef.current) return
     formRef.current.scrollIntoView({
         block: 'start',
+        behavior: 'smooth',
     })
 }
 

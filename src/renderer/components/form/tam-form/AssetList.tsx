@@ -75,7 +75,7 @@ const AddAsset = (setFieldValue, values, lastAssetRef) => {
         if (!lastAssetRef.current) return
         lastAssetRef.current.scrollIntoView({
             block: 'nearest',
-            behavior: 'auto',
+            behavior: 'smooth',
         })
     }, 100)
 }

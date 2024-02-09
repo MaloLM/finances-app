@@ -26,18 +26,19 @@ function createWindow() {
     fullscreen:true,
     minWidth: 640,
     minHeight: 720,
+    icon: path.join(__dirname, 'icons/logo.png'),
     webPreferences: {
       nodeIntegration: true,
-      contextIsolation: false,
-      // preload: path.join(__dirname, 'preload.bundle.js')
+      contextIsolation: true,
+      preload: path.join(__dirname, 'preload.bundle.js')
     },
   });
 
   // open DevTools automatically
-  win.webContents.openDevTools();
+  // win.webContents.openDevTools();
 
   // Open main winder
-  win.loadFile("index.html");
+  win.loadFile( path.join(__dirname, "index.html"));
   // win.loadURL('http://localhost:8080');
 
 }
