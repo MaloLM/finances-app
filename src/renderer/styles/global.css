@@ -37,3 +37,7 @@ input[type="number"]::-webkit-outer-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
 }
+
+.field {
+  @apply rounded-none border-0 border-b bg-transparent p-1 text-softWhite hover:border-nobleGold focus:outline-none focus:ring-0 hover:brightness-125; 
+}

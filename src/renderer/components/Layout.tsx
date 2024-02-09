@@ -1,23 +1,15 @@
-import React from 'react';
-import { Sidebar } from './Sidebar';
+import React from 'react'
+import { Sidebar } from './Sidebar'
 
 interface LayoutProps {
-  children?: React.ReactNode;
+    children?: React.ReactNode
 }
 
-export const Layout = (props: LayoutProps) => {
-  return (
-    <div className="layout">
-      <Sidebar />
-      <main className="
-            min-w-fit
-            sm:min-w-0
-            mt-10
-            lg:mt-10 lg:mx-20
-            xl:mt-10 xl:mx-40 ">
-        {props.children}
-      </main>
-    </div>
-  );
-};
-
+export const Layout = ({ children }: LayoutProps) => {
+    return (
+        <div className="layout h-fit">
+            <Sidebar />
+            <main className="mt-10 min-w-fit p-5 sm:min-w-0 lg:mx-20 lg:mt-10 xl:mx-40 xl:mt-10">{children}</main>
+        </div>
+    )
+}

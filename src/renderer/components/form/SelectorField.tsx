@@ -1,18 +1,16 @@
-import { Field } from "formik";
-import React from "react";
+import { Field } from 'formik'
+import React from 'react'
 
 interface SelectorFieldProps {
-    name?: string;
-    className?: string;
-    options?: string[];
+    name?: string
+    className?: string
+    options?: string[]
 }
 
-export const SelectorField = (props: SelectorFieldProps) => {
+export const SelectorField = ({ name, className, options }: SelectorFieldProps) => {
     return (
-        <Field name={props.name} as="select" className={"rounded-none border-0 border-b border-transparent hover:border-nobleGold focus:outline-none focus:ring-0 text-softWhite p-1 bg-transparent " + props.className}>
-            {props.options?.map((option, index) =>
-                <option key={index}>{option}</option>
-            )}
+        <Field name={name} as="select" className={'field border-transparent ' + className}>
+            {options?.map((option, index) => <option key={index}>{option}</option>)}
         </Field>
-    );
+    )
 }

@@ -1,6 +1,6 @@
-import React from "react";
-import { Toaster } from 'react-hot-toast';
-
+import React from 'react'
+import { Toaster } from 'react-hot-toast'
+import { COLORS } from '../../utils'
 
 export const CustomToaster = () => {
     return (
@@ -11,7 +11,11 @@ export const CustomToaster = () => {
             toastOptions={{
                 duration: 5000,
                 className: 'bg-nobleBlack  border border-nobleGold text-softWhite',
+                iconTheme: {
+                    primary: COLORS.nobleGold,
+                    secondary: COLORS.softWhite,
+                },
             }}
         />
-    );
+    )
 }

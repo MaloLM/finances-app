@@ -1,9 +1,10 @@
-import React from "react";
+import React from 'react'
+import { Card } from '../components'
 
 export const OtherFeature = () => {
     return (
-        <div>
-            <h1 className="text-white">Other Feature</h1>
+        <div className="">
+            <Card title="Other Feature"></Card>
         </div>
-    );
+    )
 }
