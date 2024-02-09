@@ -1,7 +1,8 @@
 const path = require('path');
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
-  mode: 'development',
+  mode: 'production',
   target: 'electron-main',
   entry: {
     main: './src/main/main.js',
@@ -37,9 +38,19 @@ module.exports = {
           configFile: 'tsconfig.main.json'
         }
       },
-      // You can add more loaders here for other types of files if needed
     ]
   },
+  plugins: [
+    new CopyPlugin({
+      patterns: [
+        { 
+          from: 'public/*.{png,jpg,jpeg,svg,ico,icns}',
+          to: 'icons/[name][ext]', // Copies files into dist/icons maintaining their original filenames and extensions
+          noErrorOnMissing: true, // Prevents errors if no files are matched
+        },      
+      ],
+    }),
+  ],
   resolve: {
     extensions: ['.js', '.ts', '.tsx'] // Add .ts and .tsx here
   },
