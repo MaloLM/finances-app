@@ -14,8 +14,8 @@ const { app } = require('electron');
  */
 
 function getDataFilePath(filename) {
-  // return path.join(__dirname, filename); // Final build path
-  return path.join(__dirname, '..', '..', 'data', filename); // Development path
+  return path.join(__dirname, filename); // Final build path
+  // return path.join(__dirname, '..', '..', 'data', filename); // Development path
 }
 
 function readJsonFile(filename) {
