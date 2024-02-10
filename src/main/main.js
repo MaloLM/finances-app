@@ -13,17 +13,15 @@ const {
  */
 
 // To return to a build envrionment : 
+// - loadFile instead of loadURL: ok  
+// - change the index.html : ok
 // - contextIsolation to true : ok
-// - load the file :  ok 
 // - load the preload file  :  ok
-// - change the getDataFilePath in dataFiles.js : ok
 // - change the api/electron.js in renderer : ok
-// - remove full screen mode [optional]
 function createWindow() {
   const win = new BrowserWindow({
     width: 850,
     height: 720,
-    fullscreen:true,
     minWidth: 640,
     minHeight: 720,
     icon: path.join(__dirname, 'icons/logo.png'),
