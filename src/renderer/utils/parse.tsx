@@ -1,9 +1,16 @@
 import { ChartData, TamFormResponse, TamFormResponseAsset, TamFormData } from './types'
-import { COLORS } from './constants'
-export function parseTamFormData(jsonString: string): TamFormData {
+import { COLORS, INIT_TAM_DATA } from './constants'
+
+export function parseTamFormData(input: string | object): TamFormData {
+    const jsonString = typeof input === 'string' ? input : JSON.stringify(input)
+
     try {
-        const data = JSON.parse(jsonString) as TamFormData
-        return data
+        const data = JSON.parse(jsonString)
+        if (Object.keys(data).length === 0) {
+            return INIT_TAM_DATA
+        }
+
+        return data as TamFormData
     } catch (error) {
         throw new Error('Failed to parse JSON data')
     }

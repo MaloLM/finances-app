@@ -29,7 +29,6 @@ export const TargetAllocationMaintenance = () => {
     }
 
     const handleResponse = (event, responseData) => {
-        console.log('on est laaaaa')
         if (event.error) {
             toast.error(event.error)
         } else {

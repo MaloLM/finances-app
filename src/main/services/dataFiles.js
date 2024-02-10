@@ -14,28 +14,32 @@ const { app } = require('electron');
  */
 
 function getDataFilePath(filename) {
-  return path.join(__dirname, filename); // Final build path
+  const userDataPath = app.getPath('userData');
+  return path.join(userDataPath, filename); // Final build path
   // return path.join(__dirname, '..', '..', 'data', filename); // Development path
 }
-
 function readJsonFile(filename) {
   return new Promise((resolve, reject) => {
-    const filePath = getDataFilePath(filename)
+    const filePath = getDataFilePath(filename);
 
     fs.readFile(filePath, "utf8", (err, data) => {
       if (err) {
-        reject(err);
+        if (err.code === 'ENOENT') { // Check if the error is because the file does not exist
+          writeJsonFile(filename, {})
+            .then(() => resolve('{}')) // Successfully wrote the empty file, resolve with an empty object
+            .catch(reject); // Failed to write the empty file, reject with the write error
+        } else {
+          reject(err); // Some other error occurred, reject with it
+        }
       } else {
         try {
-          if (data != "") {
-            resolve(data);
-          } else {
-            const jsonData = JSON.parse(data);
-            resolve(jsonData);
-          }
+          const jsonData = JSON.parse(data || '{}'); // Parse the data, defaulting to an empty object if data is empty
+          resolve(jsonData);
         } catch (parseErr) {
-          writeJsonFile(filename, {});
-          resolve({});
+          // If parsing fails, also attempt to reset the file to an empty object
+          writeJsonFile(filename, {})
+            .then(() => resolve('{}'))
+            .catch(reject);
         }
       }
     });
@@ -52,14 +56,17 @@ function readJsonFile(filename) {
  *                 will be handled internally, but not returned or thrown.
  */
 function writeJsonFile(filename, data) {
-  const filePath = getDataFilePath(filename); 
-  fs.writeFile(filePath, JSON.stringify(data, null, 2), "utf8", (err) => {
-    if (err) {
-      return err;
-    } else {
-      return "Données écrites avec succès dans le fichier";
-    }
+  const filePath = getDataFilePath(filename);
+  return new Promise((resolve, reject) => { // Ensure we return a promise
+    fs.writeFile(filePath, JSON.stringify(data, null, 2), "utf8", (err) => {
+      if (err) {
+        reject(err); // Reject the promise if there's an error
+      } else {
+        resolve("Data successfully written to file"); // Resolve the promise successfully
+      }
+    });
   });
 }
+
 
 module.exports = { readJsonFile, writeJsonFile };
