@@ -100,18 +100,24 @@ To optimize the development environment for efficiency, such as enabling hot rel
         win.webContents.openDevTools()
         ```
 
--   In `dataFiles.js`:
+-   In `public/index.html`:
 
-    -   Modify the data file path for development:
+    -   Disable the `Content-Security-Policy` meta tag, by adding 'unsafe-eval' in the script-src parameter of content attribute:
 
-        ```jsx
-        function getDataFilePath(filename) {
-            // return path.join(__dirname, filename); // Final build path
-            return path.join(__dirname, '..', '..', 'data', filename) // Development path
-        }
+        ```html
+        <meta
+            http-equiv="Content-Security-Policy"
+            content="
+                        default-src 'none';
+                        script-src 'self' 'unsafe-eval'; <--- this
+                        connect-src 'self';
+                        img-src 'self' data:;
+                        style-src 'self' 'unsafe-inline';
+                        font-src 'self';
+                        object-src 'none';
+                    "
+        />
         ```
-
-    This adjustment accounts for the different file paths encountered during the build process versus development.
 
 -   In `renderer/api/electron.tsx`:
 
@@ -141,7 +147,7 @@ To optimize the development environment for efficiency, such as enabling hot rel
         }
         ```
 
--   In `./webpack.renderer.config.js` & `./webpack.main.config.js`:
+-   In `./webpack.renderer.config.js` & `./webpack.main.config.js` (OPTIONAL: for better quicker launch):
 
     -   Set `mode` to `development`:
 

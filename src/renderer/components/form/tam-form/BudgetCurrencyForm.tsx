@@ -20,11 +20,11 @@ export const BudgetCurrencyForm = ({ computeResult, handleUpdate }: BudgetCurren
                 tooltip="Enter budget"
                 displayError
             />
-            <SelectorField name="currency" options={Array.from(CURRENCIES.keys())} />
+            <SelectorField title="Currency" name="currency" options={Array.from(CURRENCIES.keys())} />
 
             {computeResult.assets && (
                 <>
-                    <Button filled className="ml-3 bg-lightNobleBlack py-1" type="submit">
+                    <Button title="Recompute" filled className="ml-3 bg-lightNobleBlack py-1" type="submit">
                         <RotateCcw size={20} strokeWidth={2.5} />
                     </Button>
                     <Button

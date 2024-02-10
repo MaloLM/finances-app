@@ -10,11 +10,11 @@ interface AssetFormProps {
     className?: string
 }
 
-export const TamAssetForm = (props: AssetFormProps) => {
+export const AssetForm = (props: AssetFormProps) => {
     return (
         <div
-            className={`relative flex items-center justify-between rounded-lg border  
-        py-2 pb-2 pl-2 pr-8  shadow-xl transition-all duration-700 ease-in-out
+            className={`bg-secondaryLightNobleBlack relative flex items-center justify-between rounded-lg  border
+        py-2 pb-2 pl-2 pr-8  shadow-xl transition-all duration-500 ease-in-out
         ${
             props.error
                 ? 'border-error border-opacity-100'

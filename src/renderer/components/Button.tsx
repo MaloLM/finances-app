@@ -6,12 +6,14 @@ interface ButtonProps {
     className?: string
     filled?: boolean
     disabled?: boolean
+    title?: string
     type?: 'button' | 'submit' | 'reset'
 }
 
 export const Button = (props: ButtonProps) => {
     return (
         <button
+            title={props.title}
             disabled={props.disabled}
             type={props.type ? props.type : 'button'}
             className={` rounded-full border px-2

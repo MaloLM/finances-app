@@ -21,8 +21,17 @@ export const NumberField = (props: NumberFieldProps) => {
                         <>
                             <div className="flex items-center">
                                 <input
-                                    type="number"
+                                    type="text"
                                     {...field}
+                                    onChange={(e) => {
+                                        let value = e.target.value
+                                        if (/^\d*\.?\d*$/.test(value) || value === '') {
+                                            if (value !== '0' && !value.startsWith('0.')) {
+                                                e.target.value = value.replace(/^0+/, '')
+                                            }
+                                            field.onChange(e)
+                                        }
+                                    }}
                                     title={props.tooltip}
                                     className={`field relative max-w-14 text-center 
                                 ${meta.touched && meta.error ? ' border-error ' : ' border-transparent '} ${props.className}`}

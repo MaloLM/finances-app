@@ -10,7 +10,7 @@
     "build:renderer": "webpack --config webpack.renderer.config.js",
     "dev": "concurrently \"npm run dev:renderer\" \"wait-on http://localhost:8080 && npm run dev:main\"",
     "dev:renderer": "webpack serve --config webpack.renderer.config.js --mode development",
-    "dev:main": "electron . ",
+    "dev:main": "electron ./src/main/main.js",
     "pack": "electron-builder --dir --mac",
     "dist": "electron-builder --win --mac --linux"
   },

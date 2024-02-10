@@ -11,6 +11,7 @@ export const COLORS = {
     lightNobleBlack: fullConfig.theme.colors.lightNobleBlack,
     softWhite: fullConfig.theme.colors.softWhite,
     lightGray: fullConfig.theme.colors.lightGray,
+    secondaryGold: fullConfig.theme.colors.secondaryGold,
     error: fullConfig.theme.colors.error,
 }
 
@@ -23,7 +24,7 @@ export const MOCK_CHART_DATA: ChartData = {
         {
             label: 'Current',
             data: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
-            backgroundColor: COLORS.nobleGold,
+            backgroundColor: COLORS.secondaryGold,
             order: 1,
         },
         {

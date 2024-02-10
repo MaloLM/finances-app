@@ -21,6 +21,7 @@ declare module 'tailwindcss/tailwind-config' {
       softWhite: string;
       sidebar: string;
       error: string;
+      secondaryGold: string;
       succesGreen: string;
     };
   }

@@ -33,9 +33,11 @@ module.exports = {
       },
       colors: {
         nobleBlack: '#0B0B0B',
-        lightNobleBlack: '#131313',
+        lightNobleBlack: '#1a1a1a',
+        secondaryLightNobleBlack: '#1e1e1e',
         nobleGold: '#d4b85b',
-        darkerNobleGold: '#998d05',
+        darkerNobleGold: '#dec049',
+        secondaryGold: '#fef250',
         lightGray: '#333333',
         softWhite: '#d6d6d6',
         error: '#d10000',

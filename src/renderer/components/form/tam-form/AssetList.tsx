@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button } from '../../Button'
 import { Plus } from 'lucide-react'
-import { TamAssetForm } from './AssetForm'
+import { AssetForm } from './AssetForm'
 import { Asset, CURRENCIES } from '../../../utils'
 import toast from 'react-hot-toast'
 
@@ -24,7 +24,7 @@ export const AssetList = ({ values, errors, setFieldValue }: AssetListProps) => 
             <div className="flex max-h-110 w-full flex-col gap-1  overflow-y-scroll py-1 pr-4 md:min-h-24">
                 {values.assets.map((asset, index) => (
                     <div ref={index === values.assets.length - 1 ? lastAssetRef : null} key={index}>
-                        <TamAssetForm
+                        <AssetForm
                             currency={CURRENCIES.get(values.currency)}
                             key={index}
                             assetIndex={index}
@@ -68,7 +68,6 @@ const AddAsset = (setFieldValue, values, lastAssetRef) => {
         ...values.assets,
         { assetName: 'Asset Name', unitPrice: 1, quantityOwned: 0, targetPercent: 0 },
     ])
-    toast.success('New asset created')
 
     // sleep for 100ms to wait for the new asset to be rendered
     setTimeout(() => {

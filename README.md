@@ -53,11 +53,11 @@ By following these steps, you can efficiently manage your financial portfolio to
 
 FINANCES is built using several key technologies and libraries, including:
 
--   Electron (v28.1.3)
+-   Electron (v28.1)
 -   React (v18.2.0)
--   TailwindCSS (v3.4.1)
--   Webpack (v5.89.0)
--   TypeScript (v5.3.3)
+-   TailwindCSS (v3.4)
+-   Webpack (v5.89)
+-   TypeScript (v5.3)
 
 For a full list of dependencies, refer to the `package.json` file's `devDependencies` and `dependencies` sections.
 
@@ -67,8 +67,8 @@ Further documentation detailing the technical aspects and architecture of FINANC
 
 ## Contributors
 
--   Malo Le Mestre: @MaloLM (developer and owner of the repo)
--   El Walid Kadura: @wawkadura (full stack developer)
+-   [Malo Le Mestre](https://github.com/MaloLM) (developer and owner of the repo)
+-   [El Walid Kadura](https://github.com/wawkadura) (full stack developer)
 
 ## License
 
@@ -76,4 +76,16 @@ This project is licensed under the ISC License. See the [LICENSE](LICENSE) file 
 
 ## Contact Information
 
-For any queries or contributions, please contact Malo Le Mestre at [malo.lm@icloud.com](mailto:malo.lm@icloud.com).
+For any queries or contributions, please contact Malo Le Mestre :
+
+<div style="display:flex;"> 
+   <a href="https://portfolio.dopee.io" target="_blank">
+      <img src="https://img.shields.io/badge/Portefolio-green?style=for-the-badge&logo=vuedotjs&logoColor=white" alt="Portefolio" height=40>
+   </a>
+   <a href="https://www.linkedin.com/in/malo-le-mestre/" target="_blank">
+      <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="Linkedin" height=40>
+   </a>
+   <a href="mailto:malo.lm@icloud.com" target="_blank">
+      <img src="https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=maildotru&logoColor=white" alt="E-mail" height=40>
+   </a>
+</div>

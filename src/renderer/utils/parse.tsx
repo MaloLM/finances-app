@@ -53,7 +53,7 @@ export function parseToChartData(tamResponse: TamFormResponse): ChartData {
             {
                 label: 'Current Volume',
                 data: oldQuantities,
-                backgroundColor: COLORS.nobleGold,
+                backgroundColor: COLORS.secondaryGold,
                 order: 2,
             },
             {
