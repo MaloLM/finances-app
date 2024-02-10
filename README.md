@@ -20,7 +20,6 @@ FINANCES is a local Electron application designed for simple financial use cases
 ## Features
 
 -   **Target Allocation Maintenance**: Allows users to list all types of assets they possess, specify the desired percentage each asset should represent in their portfolio, input their budget, and then computes how much of each asset the user should buy next to achieve the desired distribution.
-
 -   **Other Features**: More financial features will be added in the future.
 
 ## Installation
@@ -54,11 +53,11 @@ By following these steps, you can efficiently manage your financial portfolio to
 
 FINANCES is built using several key technologies and libraries, including:
 
--   Electron
--   React
--   TailwindCSS
--   Webpack
--   TypeScript
+-   Electron (v28.1.3)
+-   React (v18.2.0)
+-   TailwindCSS (v3.4.1)
+-   Webpack (v5.89.0)
+-   TypeScript (v5.3.3)
 
 For a full list of dependencies, refer to the `package.json` file's `devDependencies` and `dependencies` sections.
 
@@ -73,7 +72,7 @@ Further documentation detailing the technical aspects and architecture of FINANC
 
 ## License
 
-This project is licensed under the ISC License. See the LICENSE file for more details.
+This project is licensed under the ISC License. See the [LICENSE](LICENSE) file for more details.
 
 ## Contact Information
 
