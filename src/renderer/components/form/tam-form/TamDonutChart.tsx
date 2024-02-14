@@ -1,4 +1,3 @@
-// DonutChart.tsx
 import React, { useEffect } from 'react'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 import { Asset } from '../../../utils/types'
@@ -17,7 +16,12 @@ export const TamDonutChart = ({ assets, className }: DonutChartProps) => {
     const [totalPurcentage, setTotalPurcentage] = React.useState<number>(0)
 
     useEffect(() => {
-        const total = assets.reduce((acc, asset) => acc + asset.targetPercent, 0)
+        let total: number = assets.reduce(
+            (acc: number, asset) =>
+                acc + (typeof asset.targetPercent === 'string' ? parseInt(asset.targetPercent) : asset.targetPercent),
+            0,
+        )
+
         setTotalPurcentage(total)
         if (total > 100) {
             setBorderColor(COLORS.error)
@@ -58,7 +62,9 @@ export const TamDonutChart = ({ assets, className }: DonutChartProps) => {
             <span
                 className={`absolute text-4xl font-bold ${totalPurcentage > 100 ? 'text-error' : totalPurcentage === 100 ? 'text-nobleGold' : ''}`}
             >
-                {totalPurcentage > 999 || totalPurcentage < 0.1 ? '???' : totalPurcentage + '%'}
+                {totalPurcentage > 999 || totalPurcentage < 0.1 || isNaN(totalPurcentage)
+                    ? '???'
+                    : totalPurcentage + '%'}
             </span>
         </div>
     )
