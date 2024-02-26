@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { parseToTamResponse, TamFormResponse } from '../utils'
+import { parseToTamResponse, TamFormData, TamFormResponse } from '../utils'
 import { useIpcRenderer } from '../api/electron'
 import { Loading, TamForm } from '../components'
 import toast from 'react-hot-toast'
@@ -33,11 +33,29 @@ export const TargetAllocationMaintenance = () => {
             toast.error(event.error)
         } else {
             let result = parseToTamResponse(responseData.message)
+            // round the newProp value to 2 decimal places
+            result.assets = result.assets.map((asset) => {
+                return {
+                    ...asset,
+                    newProp: Number(asset.newProp.toFixed(2)),
+                }
+            })
             setComputeResult(result)
         }
     }
 
-    const handleSubmit = (formData) => {
+    const handleSubmit = (formData: TamFormData) => {
+        // make sure that numeric values are number type
+        formData.budget = Number(formData.budget)
+        formData.assets = formData.assets.map((asset) => {
+            return {
+                ...asset,
+                quantityOwned: Number(asset.quantityOwned),
+                targetPercent: Number(asset.targetPercent),
+                unitPrice: Number(asset.unitPrice),
+            }
+        })
+
         sendWriteData(formData)
         onWriteResponse(handleResponse)
     }
