@@ -20,7 +20,7 @@ FINANCES is a local Electron application designed for simple financial use cases
 ## Features
 
 -   **Target Allocation Maintenance**: Allows users to list all types of assets they possess, specify the desired percentage each asset should represent in their portfolio, input their budget, and then computes how much of each asset the user should buy next to achieve the desired distribution.
--   **Other Features**: More financial features will be added in the future.
+-   **Other Features**: More financial features could be added in the future.
 
 ## Installation
 
@@ -30,6 +30,13 @@ To install FINANCES, you'll need to have Node.js installed on your system. Follo
 2. Navigate to the project directory and run `npm install` to install all the necessary dependencies.
 3. Once the dependencies are installed, you can build the project by running `npm run build`.
 4. To start the application, run `npm start`.
+
+### Easy local setup
+
+For easy local setup, follow the bellow commands (tested on MacOS):
+1. `npm i`
+2. `npm run build`
+3. `npm run pack`
 
 ## Usage
 
